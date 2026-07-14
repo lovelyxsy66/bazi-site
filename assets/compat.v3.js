@@ -35,6 +35,10 @@ const relationFocus = {
 const form = document.querySelector("#compat-form");
 const summary = document.querySelector("#compat-summary");
 const content = document.querySelector("#compat-content");
+const profileSelects = document.querySelectorAll("[data-profile-select]");
+const saveProfileButtons = document.querySelectorAll("[data-save-prefix]");
+
+setupProfilePickers();
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -56,6 +60,44 @@ form.addEventListener("submit", (event) => {
   }
 });
 
+function setupProfilePickers() {
+  if (!window.BaziProfiles) return;
+  refreshProfilePickers();
+
+  profileSelects.forEach((select) => {
+    select.addEventListener("change", () => {
+      const profile = BaziProfiles.findProfile(select.value);
+      if (!profile) return;
+      BaziProfiles.fillForm(form, profile, select.dataset.prefix);
+    });
+  });
+
+  saveProfileButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const prefix = button.dataset.savePrefix;
+      try {
+        const saved = BaziProfiles.saveProfile(BaziProfiles.readForm(form, prefix));
+        refreshProfilePickers();
+        const target = form.elements[`${prefix}ProfileId`];
+        if (target) target.value = saved.id;
+        button.textContent = `已保存 ${saved.name}`;
+        window.setTimeout(() => {
+          button.textContent = "💾 保存为档案";
+        }, 1600);
+      } catch (error) {
+        button.textContent = error.message;
+        window.setTimeout(() => {
+          button.textContent = "💾 保存为档案";
+        }, 1800);
+      }
+    });
+  });
+}
+
+function refreshProfilePickers() {
+  profileSelects.forEach((select) => BaziProfiles.renderSelect(select, "手动填写"));
+}
+
 function readPerson(data, prefix) {
   const dateValue = data.get(`${prefix}Date`);
   const timeValue = data.get(`${prefix}Time`) || "12:00";
@@ -66,6 +108,7 @@ function readPerson(data, prefix) {
   const profile = {
     name: data.get(`${prefix}Name`)?.trim() || (prefix === "a" ? "第一人" : "第二人"),
     gender: data.get(`${prefix}Gender`),
+    location: data.get(`${prefix}Location`)?.trim(),
     date: dateValue,
     time: timeValue,
     calendar: data.get(`${prefix}Calendar`),
@@ -188,18 +231,19 @@ function analyzeCompatibility(a, b, relation) {
   const current = currentTimeEnergy();
   const datePlan = recommendDates(a, b, relation, weakest, current);
 
-  const overview = `${a.profile.name}日主为${aDay}，${b.profile.name}日主为${bDay}，两人日主呈${dayRelation.label}；日支气质呈${branchRelation.label}。合盘里${strongest}最旺，${weakest}较少，所以这段${relation}最需要补上的不是热闹，而是${elementTemper[weakest]}。`;
+  const placeText = [a.profile.location && `${a.profile.name}出生地${a.profile.location}`, b.profile.location && `${b.profile.name}出生地${b.profile.location}`].filter(Boolean).join("；");
+  const overview = `${a.profile.name}日主为${aDay}，${b.profile.name}日主为${bDay}，两人日主呈${dayRelation.label}；日支气质呈${branchRelation.label}。合盘里${strongest}最旺，${weakest}较少，所以这段${relation}最需要补上的不是热闹，而是${elementTemper[weakest]}。${placeText ? `${placeText}，已记录进档案信息。` : "如果补充出生地，后续档案和合盘会更完整。"}`;
 
   const cards = [
     {
       title: `${focus[0]}：两人的第一层吸引`,
-      body: `${a.profile.name}的日柱是${a.chart.dayStem}${a.chart.dayBranch}，${b.profile.name}的日柱是${b.chart.dayStem}${b.chart.dayBranch}。日主关系为${dayRelation.label}，代表两个人靠近时最先感受到的是${dayRelation.tone}。如果这是${relation}关系，最容易好奇的是“为什么会被对方牵动”：答案不一定是对方完全符合想象，而是对方刚好触发了你平时不常使用的一面。${dayRelation.detail}`,
+      body: `${a.profile.name}的日柱是${a.chart.dayStem}${a.chart.dayBranch}，${b.profile.name}的日柱是${b.chart.dayStem}${b.chart.dayBranch}。日主关系为${dayRelation.label}，代表两个人靠近时最先感受到的是${dayRelation.tone}。换成白话，就是你们不是单纯“合”或“不合”，而是有一套互相牵动的方式。如果这是${relation}关系，最容易好奇的是“为什么会被对方牵动”：答案不一定是对方完全符合想象，而是对方刚好触发了你平时不常使用的一面。${dayRelation.detail}`,
       basis: `依据：${a.profile.name}日主${aDay}；${b.profile.name}日主${bDay}；五行关系为${dayRelation.label}。`,
       highlight: true,
     },
     {
       title: `${focus[1]}：情绪与沟通节奏`,
-      body: `日支更像两个人进入关系后的相处姿态。${a.profile.name}日支${a.chart.dayBranch}属${a.chart.dayBranchElement}，${b.profile.name}日支${b.chart.dayBranch}属${b.chart.dayBranchElement}，呈${branchRelation.label}。这说明你们在日常里会以${branchRelation.tone}的方式互相影响。顺的时候会觉得对方很有用、很懂或很能带动自己；不顺时也容易把同一个问题反复演成固定剧本。建议把冲突拆成事实、感受、请求三层，不要只用沉默、试探或讲道理来解决亲密里的不安。`,
+      body: `日支更像两个人进入关系后的相处姿态。${a.profile.name}日支${a.chart.dayBranch}属${a.chart.dayBranchElement}，${b.profile.name}日支${b.chart.dayBranch}属${b.chart.dayBranchElement}，呈${branchRelation.label}。这说明你们在日常里会以${branchRelation.tone}的方式互相影响。顺的时候会觉得对方很有用、很懂或很能带动自己；不顺时也容易把同一个问题反复演成固定剧本。建议把冲突拆成事实、感受、请求三层：先说发生了什么，再说自己哪里不舒服，最后提出希望对方怎么做。这样比冷战、试探或只讲大道理更容易修复关系。`,
       basis: `依据：${a.profile.name}日支${a.chart.dayBranch}/${a.chart.dayBranchElement}；${b.profile.name}日支${b.chart.dayBranch}/${b.chart.dayBranchElement}。`,
     },
     {
@@ -209,7 +253,7 @@ function analyzeCompatibility(a, b, relation) {
     },
     {
       title: `${focus[3]}：长期能不能走稳`,
-      body: `这段${relation}的长期关键在${weakest}。当${weakest}对应的${elementTemper[weakest]}不足时，你们容易在现实安排、情绪回应、边界或行动上出现缺口。建议把“感觉对不对”落到三个具体问题：钱和时间如何分配，冲突后谁来修复，未来三个月各自要承担什么。只要这些问题能说清，合盘里的相克也能变成推动；如果一直避而不谈，相生关系也可能因为期待过高而失衡。`,
+      body: `这段${relation}的长期关键在${weakest}。当${weakest}对应的${elementTemper[weakest]}不足时，你们容易在现实安排、情绪回应、边界或行动上出现缺口。建议把“感觉对不对”落到三个具体问题：钱和时间如何分配，冲突后谁来修复，未来三个月各自要承担什么。只要这些问题能说清，合盘里的相克也能变成推动；如果一直避而不谈，相生关系也可能因为期待过高而失衡。合盘最有价值的地方，不是替你们下结论，而是帮你们提前看到容易卡住的地方。`,
       basis: `依据：合盘五行短板为${weakest}；关系类型为${relation}，重点观察${focus.join("、")}。`,
     },
     {

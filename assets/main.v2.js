@@ -119,6 +119,12 @@ const reading = document.querySelector("#reading");
 const insights = document.querySelector("#insights");
 const summaryTitle = document.querySelector("#summary-title");
 const dominantText = document.querySelector("#dominant-text");
+const profileSelect = document.querySelector("#profile-select");
+const saveProfileButton = document.querySelector("#save-profile");
+const deleteProfileButton = document.querySelector("#delete-profile");
+const profileStatus = document.querySelector("#profile-status");
+
+setupProfileControls();
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -150,6 +156,44 @@ form.addEventListener("submit", (event) => {
 
   renderChart(result, profile);
 });
+
+function setupProfileControls() {
+  if (!window.BaziProfiles) return;
+  BaziProfiles.renderSelect(profileSelect);
+
+  profileSelect?.addEventListener("change", () => {
+    const profile = BaziProfiles.findProfile(profileSelect.value);
+    if (!profile) return;
+    BaziProfiles.fillForm(form, profile);
+    setProfileStatus(`已载入 ${profile.name} 的档案，可以直接排盘。`);
+  });
+
+  saveProfileButton?.addEventListener("click", () => {
+    try {
+      const saved = BaziProfiles.saveProfile(BaziProfiles.readForm(form));
+      BaziProfiles.renderSelect(profileSelect);
+      profileSelect.value = saved.id;
+      setProfileStatus(`已保存 ${saved.name} 的生日档案。`);
+    } catch (error) {
+      setProfileStatus(error.message);
+    }
+  });
+
+  deleteProfileButton?.addEventListener("click", () => {
+    if (!profileSelect?.value) {
+      setProfileStatus("请先选择要删除的档案。");
+      return;
+    }
+    const profile = BaziProfiles.findProfile(profileSelect.value);
+    BaziProfiles.deleteProfile(profileSelect.value);
+    BaziProfiles.renderSelect(profileSelect);
+    setProfileStatus(`已删除${profile ? ` ${profile.name} 的` : ""}档案。`);
+  });
+}
+
+function setProfileStatus(message) {
+  if (profileStatus) profileStatus.textContent = message;
+}
 
 function buildChart(input) {
   if (!window.Solar || !window.Lunar) {
@@ -268,10 +312,10 @@ function renderChart(chart, profile) {
   const weakest = entries[entries.length - 1][0];
   const dayPillar = chart.pillars[2];
   reading.innerHTML = `
-    <p><strong>日主：</strong>${dayPillar.stem}${dayPillar.branch}日，日主五行为${chart.dayMaster}。${dayMasterReading[chart.dayMaster]}</p>
-    <p><strong>五行：</strong>${strongest}气最显，${weakest}气较少。${elementReading[strongest]} 偏弱的${weakest}不是“缺陷”，更像提醒：生活里要主动安排对应的训练和环境，让命盘结构从单一强项变成可调动的综合能力。</p>
-    <p><strong>历法：</strong>公历 ${chart.solarText}；农历 ${chart.lunarText}；生肖${chart.zodiac}。八字为 ${chart.eightCharText}。</p>
-    <p><strong>节气：</strong>${chart.nearestTerm}。八字以节气切换月份，所以同一天前后出生也可能因为节令而呈现不同结构。本页面把它作为性格、关系和行动倾向的娱乐参考，不把结果说死，也不建议替代现实判断。</p>
+    <p><strong>先看日主：</strong>${dayPillar.stem}${dayPillar.branch}日，日主五行为${chart.dayMaster}。你可以把“日主”理解成一个人的核心做事方式：遇到机会时怎么反应，遇到压力时怎么保护自己，也包括亲密关系里最自然的需求。${dayMasterReading[chart.dayMaster]}</p>
+    <p><strong>再看五行：</strong>${strongest}气最显，${weakest}气较少。通俗说，${strongest}像你最顺手的工具，${weakest}像你平时容易忽略的训练。${elementReading[strongest]} 偏弱的${weakest}不是“缺陷”，更像提醒：生活里要主动安排对应的习惯和环境，让命盘结构从单一强项变成可调动的综合能力。</p>
+    <p><strong>具体信息：</strong>公历 ${chart.solarText}；农历 ${chart.lunarText}；生肖${chart.zodiac}。八字为 ${chart.eightCharText}。${profile.location ? `出生地记录为${profile.location}，后续查看档案和合盘时会一起带出。` : "还没有填写出生地，建议补上，方便以后做个人档案和合盘记录。"}</p>
+    <p><strong>为什么节气重要：</strong>${chart.nearestTerm}。八字月份按节气切换，所以同一天前后出生也可能因为节令而呈现不同结构。本页面把它作为性格、关系和行动倾向的娱乐参考，不把结果说死，也不建议替代现实判断。</p>
   `;
 
   const angles = lifeAngles[chart.dayMaster];
@@ -284,7 +328,8 @@ function renderChart(chart, profile) {
     ["健康作息", angles.health],
     ["人际贵人", angles.social],
     ["学习成长", angles.study],
-    ["近期提醒", `五行里${weakest}偏少，可以把它当成生活提醒：缺木多做规划，缺火多行动表达，缺土重视稳定节奏，缺金建立规则边界，缺水留出休息和信息整理时间。最实用的改运方式，往往不是等待某个年份突然变好，而是把偏弱的能力做成日常习惯。`],
+    ["近期提醒 🧭", `五行里${weakest}偏少，可以把它当成生活提醒：缺木多做规划，缺火多行动表达，缺土重视稳定节奏，缺金建立规则边界，缺水留出休息和信息整理时间。最实用的改运方式，往往不是等待某个年份突然变好，而是把偏弱的能力做成日常习惯。`],
+    ["怎么看这张盘", `不要把“旺”和“弱”简单理解成好坏。旺，表示这类能力容易被你用出来；弱，表示它需要靠环境、训练或身边的人补上。真正有用的看法是：先找到优势，再看短板会在哪些场景拖后腿，最后把它变成具体行动。比如${strongest}旺，就把${strongest}相关的长处用在工作和社交里；${weakest}弱，就给自己设计一个能补${weakest}的日常小动作。`],
     ...nameCards,
   ]
     .map(

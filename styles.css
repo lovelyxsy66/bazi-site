@@ -17,7 +17,12 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  position: relative;
   margin: 0;
   min-height: 100vh;
   font-family:
@@ -25,10 +30,23 @@ body {
     "Segoe UI", sans-serif;
   color: var(--ink);
   background:
+    linear-gradient(135deg, rgba(155, 47, 36, 0.08), transparent 28%),
+    linear-gradient(225deg, rgba(49, 95, 130, 0.08), transparent 30%),
     linear-gradient(90deg, rgba(50, 41, 34, 0.045) 1px, transparent 1px),
     linear-gradient(rgba(50, 41, 34, 0.045) 1px, transparent 1px),
     var(--paper);
   background-size: 32px 32px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(120deg, transparent 0 18px, rgba(192, 139, 53, 0.045) 18px 19px),
+    linear-gradient(180deg, rgba(255, 250, 242, 0.35), rgba(255, 250, 242, 0));
 }
 
 button,
@@ -56,6 +74,18 @@ select {
   border-radius: 8px;
   background: rgba(255, 250, 242, 0.94);
   box-shadow: var(--shadow);
+  animation: rise-in 560ms ease both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .input-panel {
@@ -144,6 +174,44 @@ h2 {
   gap: 14px;
 }
 
+.profile-tools {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 14px;
+  border: 1px solid rgba(192, 139, 53, 0.45);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fffdf8, rgba(255, 247, 237, 0.86));
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.profile-picker {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid rgba(192, 139, 53, 0.38);
+  border-radius: 8px;
+  background: #fffaf2;
+}
+
+.mini-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 label {
   display: grid;
   gap: 7px;
@@ -218,6 +286,29 @@ select:focus {
   background: rgba(155, 47, 36, 0.08);
 }
 
+.ghost-action {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: var(--dark);
+  background: #fffdf8;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ghost-action:hover {
+  border-color: rgba(155, 47, 36, 0.45);
+  color: var(--red);
+  background: rgba(155, 47, 36, 0.06);
+}
+
+.compact-action {
+  min-height: 42px;
+  white-space: nowrap;
+}
+
 .secondary-inline {
   margin-left: 8px;
 }
@@ -232,6 +323,18 @@ select:focus {
 .result-area {
   display: grid;
   gap: 18px;
+}
+
+.result-area > *:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.result-area > *:nth-child(3) {
+  animation-delay: 130ms;
+}
+
+.result-area > *:nth-child(4) {
+  animation-delay: 190ms;
 }
 
 .overview-panel {
@@ -297,6 +400,18 @@ select:focus {
   padding: 18px;
   display: grid;
   align-content: space-between;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.pillar-card:hover,
+.insight-card:hover,
+.deep-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(155, 47, 36, 0.36);
+  box-shadow: 0 22px 56px rgba(48, 37, 27, 0.18);
 }
 
 .pillar-card span,
@@ -382,6 +497,7 @@ select:focus {
   gap: 12px;
   color: var(--dark);
   line-height: 1.85;
+  font-size: 15px;
 }
 
 .reading p {
@@ -580,6 +696,10 @@ select:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fffdf8;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .insight-card h3 {
@@ -628,6 +748,8 @@ select:focus {
   .deep-grid,
   .compat-form fieldset,
   .relation-row,
+  .profile-tools,
+  .profile-picker,
   .compat-overview {
     grid-template-columns: 1fr;
   }
@@ -653,7 +775,28 @@ select:focus {
     margin-left: 0;
   }
 
+  .profile-actions {
+    display: grid;
+  }
+
   h1 {
     font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .panel,
+  .pillar-card {
+    animation: none;
+  }
+
+  .pillar-card,
+  .insight-card,
+  .deep-card {
+    transition: none;
   }
 }

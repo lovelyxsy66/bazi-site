@@ -29,6 +29,15 @@
         <form id="compat-form" class="compat-form">
           <fieldset>
             <legend>第一人</legend>
+            <div class="profile-picker">
+              <label>
+                从生日档案选择
+                <select name="aProfileId" data-profile-select data-prefix="a">
+                  <option value="">手动填写</option>
+                </select>
+              </label>
+              <button class="ghost-action compact-action" type="button" data-save-prefix="a">💾 保存为档案</button>
+            </div>
             <label>
               姓名
               <input name="aName" type="text" placeholder="例如：林一" required />
@@ -50,6 +59,10 @@
               <input name="aTime" type="time" value="12:00" required />
             </label>
             <label>
+              出生地
+              <input name="aLocation" type="text" placeholder="例如：杭州" />
+            </label>
+            <label>
               历法
               <select name="aCalendar">
                 <option value="公历">公历</option>
@@ -64,6 +77,15 @@
 
           <fieldset>
             <legend>第二人</legend>
+            <div class="profile-picker">
+              <label>
+                从生日档案选择
+                <select name="bProfileId" data-profile-select data-prefix="b">
+                  <option value="">手动填写</option>
+                </select>
+              </label>
+              <button class="ghost-action compact-action" type="button" data-save-prefix="b">💾 保存为档案</button>
+            </div>
             <label>
               姓名
               <input name="bName" type="text" placeholder="例如：陈二" required />
@@ -83,6 +105,10 @@
             <label>
               出生时间
               <input name="bTime" type="time" value="12:00" required />
+            </label>
+            <label>
+              出生地
+              <input name="bLocation" type="text" placeholder="例如：上海" />
             </label>
             <label>
               历法
@@ -111,7 +137,7 @@
                 <option value="家人">家人</option>
               </select>
             </label>
-            <button class="primary-action" type="submit">生成二人合宫</button>
+            <button class="primary-action" type="submit">✨ 生成二人合宫</button>
           </div>
         </form>
         <p class="note">二人合宫适合娱乐参考。关系质量仍取决于真实沟通、责任分配、边界感和长期选择。</p>
@@ -122,6 +148,7 @@
     </main>
 
     <script src="./assets/vendor-lunar.js"></script>
+    <script src="./assets/profiles.js"></script>
     <script src="./assets/compat.v3.js"></script>
   </body>
 </html>
