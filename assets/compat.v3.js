@@ -63,6 +63,14 @@ form.addEventListener("submit", (event) => {
 function setupProfilePickers() {
   if (!window.BaziProfiles) return;
   refreshProfilePickers();
+  window.addEventListener("pageshow", refreshProfilePickers);
+  window.addEventListener("bazi:profiles-updated", refreshProfilePickers);
+  window.addEventListener("storage", (event) => {
+    if (event.key === BaziProfiles.storageKey) refreshProfilePickers();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshProfilePickers();
+  });
 
   profileSelects.forEach((select) => {
     select.addEventListener("change", () => {

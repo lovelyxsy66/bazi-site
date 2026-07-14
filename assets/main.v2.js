@@ -159,7 +159,16 @@ form.addEventListener("submit", (event) => {
 
 function setupProfileControls() {
   if (!window.BaziProfiles) return;
-  BaziProfiles.renderSelect(profileSelect);
+  const refreshProfiles = () => BaziProfiles.renderSelect(profileSelect);
+  refreshProfiles();
+  window.addEventListener("pageshow", refreshProfiles);
+  window.addEventListener("bazi:profiles-updated", refreshProfiles);
+  window.addEventListener("storage", (event) => {
+    if (event.key === BaziProfiles.storageKey) refreshProfiles();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshProfiles();
+  });
 
   profileSelect?.addEventListener("change", () => {
     const profile = BaziProfiles.findProfile(profileSelect.value);
@@ -171,7 +180,7 @@ function setupProfileControls() {
   saveProfileButton?.addEventListener("click", () => {
     try {
       const saved = BaziProfiles.saveProfile(BaziProfiles.readForm(form));
-      BaziProfiles.renderSelect(profileSelect);
+      refreshProfiles();
       profileSelect.value = saved.id;
       setProfileStatus(`已保存 ${saved.name} 的生日档案。`);
     } catch (error) {
@@ -186,7 +195,7 @@ function setupProfileControls() {
     }
     const profile = BaziProfiles.findProfile(profileSelect.value);
     BaziProfiles.deleteProfile(profileSelect.value);
-    BaziProfiles.renderSelect(profileSelect);
+    refreshProfiles();
     setProfileStatus(`已删除${profile ? ` ${profile.name} 的` : ""}档案。`);
   });
 }

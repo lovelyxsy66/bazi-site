@@ -12,6 +12,7 @@
 
   function writeProfiles(profiles) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+    window.dispatchEvent(new CustomEvent("bazi:profiles-updated"));
   }
 
   function normalizeProfile(profile) {
@@ -152,6 +153,7 @@
   }
 
   window.BaziProfiles = {
+    storageKey: STORAGE_KEY,
     readProfiles,
     saveProfile,
     deleteProfile,
