@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="输入两个人的出生信息与关系类型，生成二人合宫分析，查看相处模式、吸引力、冲突点、长期节奏与关系建议。" />
+    <title>二人合宫关系分析 · 玄衡八字排盘</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell topic-page">
+      <section class="panel topic-hero">
+        <div>
+          <p class="eyebrow">二人合宫</p>
+          <h1>二人关系合盘分析</h1>
+          <p>
+            输入两个人的出生信息，再选择你们的关系类型。系统会根据两人的日主、日支、五行互补、同气与相克关系，展开你们更可能关心的相处议题。
+          </p>
+          <a class="secondary-action" href="./index.html">返回单人排盘</a>
+        </div>
+        <div class="compass" aria-hidden="true">
+          <span>甲</span><span>合</span><span>乙</span><span>缘</span>
+          <strong>合宫</strong>
+          <span>情</span><span>财</span><span>业</span><span>久</span>
+        </div>
+      </section>
+
+      <section class="panel compat-form-panel">
+        <form id="compat-form" class="compat-form">
+          <fieldset>
+            <legend>第一人</legend>
+            <label>
+              姓名
+              <input name="aName" type="text" placeholder="例如：林一" required />
+            </label>
+            <label>
+              性别
+              <select name="aGender">
+                <option value="未指定">未指定</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </label>
+            <label>
+              出生日期
+              <input name="aDate" type="date" required />
+            </label>
+            <label>
+              出生时间
+              <input name="aTime" type="time" value="12:00" required />
+            </label>
+            <label>
+              历法
+              <select name="aCalendar">
+                <option value="公历">公历</option>
+                <option value="农历">农历</option>
+              </select>
+            </label>
+            <label class="check-row">
+              <input name="aLeapMonth" type="checkbox" />
+              闰月
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>第二人</legend>
+            <label>
+              姓名
+              <input name="bName" type="text" placeholder="例如：陈二" required />
+            </label>
+            <label>
+              性别
+              <select name="bGender">
+                <option value="未指定">未指定</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </label>
+            <label>
+              出生日期
+              <input name="bDate" type="date" required />
+            </label>
+            <label>
+              出生时间
+              <input name="bTime" type="time" value="12:00" required />
+            </label>
+            <label>
+              历法
+              <select name="bCalendar">
+                <option value="公历">公历</option>
+                <option value="农历">农历</option>
+              </select>
+            </label>
+            <label class="check-row">
+              <input name="bLeapMonth" type="checkbox" />
+              闰月
+            </label>
+          </fieldset>
+
+          <div class="relation-row">
+            <label>
+              二人关系
+              <select name="relation" required>
+                <option value="恋人">恋人</option>
+                <option value="夫妻">夫妻</option>
+                <option value="暧昧">暧昧</option>
+                <option value="朋友">朋友</option>
+                <option value="同事">同事</option>
+                <option value="合伙">合伙</option>
+                <option value="亲子">亲子</option>
+                <option value="家人">家人</option>
+              </select>
+            </label>
+            <button class="primary-action" type="submit">生成二人合宫</button>
+          </div>
+        </form>
+        <p class="note">二人合宫适合娱乐参考。关系质量仍取决于真实沟通、责任分配、边界感和长期选择。</p>
+      </section>
+
+      <section id="compat-summary" class="compat-summary"></section>
+      <section id="compat-content" class="deep-grid"></section>
+    </main>
+
+    <script src="./assets/vendor-lunar.js"></script>
+    <script src="./assets/compat.v3.js"></script>
+  </body>
+</html>

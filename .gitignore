@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vercel/
+server.log
+server.err.log
+npm-debug.log*
+.DS_Store

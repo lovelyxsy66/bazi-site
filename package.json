@@ -1,0 +1,15 @@
+{
+  "name": "bazi-site",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "node build.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "lunar-javascript": "^1.7.7"
+  }
+}
