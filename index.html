@@ -7,108 +7,53 @@
     <title>玄衡命理工作台 · 八字与紫微多维解析</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
-    <main class="home-shell">
-      <nav class="site-nav">
+  <body class="morandi-home">
+    <main class="home-shell refined-home">
+      <nav class="site-nav refined-nav">
         <a class="brand-mark" href="./index.html"><span>玄</span><strong>玄衡</strong></a>
         <div>
-          <a href="./bazi.html">八字排盘</a>
-          <a href="./ziwei.html">紫微排盘</a>
-          <a href="./compat.html">二人合盘</a>
-          <a href="./deep.html">深层解析</a>
+          <a href="./bazi.html">八字</a>
+          <a href="./ziwei.html">紫微</a>
+          <a href="./compat.html">合盘</a>
         </div>
       </nav>
 
-      <section class="home-hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Bazi · Zi Wei · Compatibility</p>
-          <h1>把命盘讲成人能听懂的话</h1>
+      <section class="refined-hero">
+        <img src="./assets/hero-celestial.png" alt="" />
+        <div class="refined-hero-copy">
+          <p class="eyebrow">Bazi · Zi Wei · Relationship</p>
+          <h1>命盘不必玄乎，讲清楚才有用。</h1>
           <p>
-            玄衡把八字、紫微斗数、二人合盘和生日档案整合在一个轻量工作台里。你可以先保存个人出生档案，再进入不同系统查看性格、事业、感情、财运、健康与长期节奏。
+            用生日档案串联八字、紫微斗数与二人合盘。保留传统结构，也把性格、事业、感情、财运和行动建议讲成更容易理解的生活语言。
           </p>
           <div class="hero-actions">
-            <a class="primary-link" href="./bazi.html">✨ 先排八字</a>
-            <a class="secondary-action" href="./ziwei.html">进入紫微斗数</a>
+            <a class="primary-link" href="./ziwei.html">进入紫微排盘</a>
+            <a class="secondary-action" href="./bazi.html">八字排盘</a>
           </div>
         </div>
-        <div class="hero-board" aria-hidden="true">
-          <div class="mini-palace active"><span>命宫</span><strong>紫微</strong></div>
-          <div class="mini-palace"><span>夫妻</span><strong>相性</strong></div>
-          <div class="mini-palace"><span>财帛</span><strong>财运</strong></div>
-          <div class="mini-palace"><span>官禄</span><strong>事业</strong></div>
-          <div class="mini-palace"><span>福德</span><strong>心性</strong></div>
-          <div class="mini-palace active"><span>日主</span><strong>五行</strong></div>
-        </div>
       </section>
 
-      <section class="home-section">
-        <div class="section-title">
-          <p class="eyebrow">功能入口</p>
-          <h2>从一个生日档案，进入多种命盘视角</h2>
-        </div>
-        <div class="feature-grid">
-          <a class="feature-card" href="./bazi.html">
-            <span>01</span>
-            <h3>八字排盘</h3>
-            <p>看日主、五行强弱、四柱含义、名字气质与通俗版人生建议。</p>
-          </a>
-          <a class="feature-card" href="./ziwei.html">
-            <span>02</span>
-            <h3>紫微斗数</h3>
-            <p>基于 iztro 开源排盘库生成十二宫、主星、四化与多维宫位解读。</p>
-          </a>
-          <a class="feature-card" href="./compat.html">
-            <span>03</span>
-            <h3>二人合盘</h3>
-            <p>从档案选择两个人，分析吸引、冲突、互补、长期关系与重要日期。</p>
-          </a>
-          <a class="feature-card" href="./deep.html">
-            <span>04</span>
-            <h3>深层解析</h3>
-            <p>围绕日柱展开伴侣、事业、家庭、子女、财富等长期主题。</p>
-          </a>
-        </div>
+      <section class="refined-routes" aria-label="核心功能">
+        <a href="./ziwei.html">
+          <span>01</span>
+          <strong>紫微斗数</strong>
+          <p>完整十二宫盘面，可点宫位和星曜，查看分析与建议。</p>
+        </a>
+        <a href="./bazi.html">
+          <span>02</span>
+          <strong>八字排盘</strong>
+          <p>日主、五行、四柱、名字气质和通俗解释。</p>
+        </a>
+        <a href="./compat.html">
+          <span>03</span>
+          <strong>二人合盘</strong>
+          <p>从档案选择两个人，分析吸引、冲突和长期节奏。</p>
+        </a>
       </section>
 
-      <section class="home-section split-section">
-        <div>
-          <p class="eyebrow">参考体系</p>
-          <h2>借鉴紫微斗数开源项目的产品结构</h2>
-          <p>
-            本站吸收参考项目在“完整排盘、十二宫展示、合盘方法、多维解读、知识库入口”上的组织方式，并重新实现为适合当前静态站的轻量版本。核心原则是：先把盘排准，再把话讲清楚。
-          </p>
-        </div>
-        <div class="principle-list">
-          <article><strong>天</strong><span>先天命盘：八字、紫微、五行与宫位结构。</span></article>
-          <article><strong>地</strong><span>环境变量：出生地、真实生活场景、关系类型。</span></article>
-          <article><strong>人</strong><span>行动选择：把命盘提示落到可执行建议。</span></article>
-        </div>
-      </section>
-
-      <section class="home-section">
-        <div class="section-title">
-          <p class="eyebrow">解读方式</p>
-          <h2>不只给结论，也说明为什么</h2>
-        </div>
-        <div class="explain-grid">
-          <article>
-            <h3>因人而异</h3>
-            <p>根据日主、五行短板、命宫主星、关系类型调整话术，不把所有人套进同一段模板。</p>
-          </article>
-          <article>
-            <h3>通俗表达</h3>
-            <p>把“相生相克、命宫、夫妻宫、财帛宫”等术语翻译成生活里的沟通、工作、金钱和边界。</p>
-          </article>
-          <article>
-            <h3>档案复用</h3>
-            <p>生日与出生地只需要保存一次，个人盘、紫微盘、合盘都可以从档案选择。</p>
-          </article>
-        </div>
-      </section>
-
-      <footer class="site-footer">
-        <p>本项目使用 MIT 开源项目与数据思想：紫微斗数开源项目，来源 https://github.com/Renhuai123/ziwei-doushu，作者：王多鱼AI；紫微排盘库 iztro，来源 https://github.com/SylarLong/iztro。</p>
-        <p>所有命理内容仅供文化娱乐与个人成长参考，不作为医疗、法律、投资或人生重大决策依据。</p>
+      <footer class="site-footer refined-footer">
+        <p>参考并标注：紫微斗数开源项目 https://github.com/Renhuai123/ziwei-doushu（王多鱼AI），紫微排盘库 iztro https://github.com/SylarLong/iztro。</p>
+        <p>命理内容仅供文化娱乐与个人成长参考。</p>
       </footer>
     </main>
   </body>

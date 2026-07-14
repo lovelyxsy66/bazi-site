@@ -1,16 +1,16 @@
 :root {
   color-scheme: light;
-  --ink: #211f1b;
-  --muted: #6e665e;
-  --line: #d8cdc0;
-  --paper: #f7f1e8;
-  --panel: #fffaf2;
-  --red: #9b2f24;
-  --gold: #c08b35;
-  --green: #3f7654;
-  --blue: #315f82;
-  --dark: #322922;
-  --shadow: 0 18px 50px rgba(48, 37, 27, 0.14);
+  --ink: #292c2a;
+  --muted: #6d716b;
+  --line: #d6d1c8;
+  --paper: #eeece4;
+  --panel: #fbfaf5;
+  --red: #7d695e;
+  --gold: #b4a177;
+  --green: #7d8d83;
+  --blue: #718895;
+  --dark: #343733;
+  --shadow: 0 18px 50px rgba(60, 64, 59, 0.12);
 }
 
 * {
@@ -326,7 +326,7 @@ select {
   border-radius: 8px;
   background: rgba(255, 250, 242, 0.94);
   box-shadow: var(--shadow);
-  animation: rise-in 560ms ease both;
+  animation: rise-in 360ms ease both;
 }
 
 @keyframes rise-in {
@@ -1161,5 +1161,269 @@ select:focus {
   .insight-card,
   .deep-card {
     transition: none;
+  }
+}
+
+/* Refined Morandi home */
+.morandi-home {
+  background: #eeece4;
+}
+
+.refined-home {
+  width: min(1180px, calc(100% - 32px));
+  padding-top: 18px;
+}
+
+.refined-nav {
+  background: rgba(251, 250, 245, 0.72);
+  border-color: rgba(125, 105, 94, 0.18);
+}
+
+.refined-hero {
+  position: relative;
+  min-height: 620px;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.refined-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(238, 236, 228, 0.94) 0%, rgba(238, 236, 228, 0.76) 37%, rgba(238, 236, 228, 0.08) 72%);
+}
+
+.refined-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.refined-hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  padding: 72px 54px;
+}
+
+.refined-hero-copy h1 {
+  margin: 0;
+  color: #2c302e;
+  font-size: 62px;
+  line-height: 1.04;
+  font-weight: 800;
+}
+
+.refined-hero-copy p {
+  margin: 22px 0 0;
+  color: #5f675f;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.refined-routes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  padding: 48px 4px 34px;
+}
+
+.refined-routes a {
+  display: grid;
+  gap: 10px;
+  color: #323633;
+  text-decoration: none;
+}
+
+.refined-routes span {
+  color: #9c8d70;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.refined-routes strong {
+  font-size: 22px;
+}
+
+.refined-routes p {
+  margin: 0;
+  color: #687168;
+  line-height: 1.75;
+}
+
+.refined-footer {
+  padding-top: 22px;
+}
+
+/* Complete Zi Wei chart */
+.ziwei-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 18px;
+  align-items: start;
+  padding: 18px;
+}
+
+.complete-chart {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(154px, auto));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(125, 105, 94, 0.22);
+  border-radius: 8px;
+  background: rgba(125, 105, 94, 0.22);
+}
+
+.complete-chart .ziwei-palace {
+  min-height: 154px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: rgba(251, 250, 245, 0.96);
+  cursor: pointer;
+}
+
+.complete-chart .ziwei-palace:hover,
+.complete-chart .ziwei-palace.is-selected {
+  background: #f4f1e8;
+  outline: 2px solid rgba(113, 136, 149, 0.42);
+  outline-offset: -2px;
+}
+
+.complete-chart .ziwei-palace.is-ming {
+  background: #f2eee5;
+}
+
+.complete-chart .ziwei-palace.is-body {
+  box-shadow: inset 0 0 0 2px rgba(113, 136, 149, 0.24);
+}
+
+.ziwei-center {
+  grid-row: 2 / 4;
+  grid-column: 2 / 4;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 100%;
+  background:
+    linear-gradient(135deg, rgba(125, 141, 131, 0.12), rgba(180, 161, 119, 0.1)),
+    #f8f6ef;
+}
+
+.ziwei-center span {
+  color: #8d8066;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+}
+
+.ziwei-center strong {
+  color: #303431;
+  font-size: 30px;
+}
+
+.ziwei-center small {
+  color: #73786f;
+  font-size: 13px;
+}
+
+.complete-chart .star-badge {
+  border-color: rgba(180, 161, 119, 0.36);
+  cursor: pointer;
+}
+
+.complete-chart .star-badge:hover {
+  color: #fffaf2;
+  background: #7d695e;
+}
+
+.ziwei-detail {
+  position: sticky;
+  top: 84px;
+  min-height: 420px;
+  padding: 22px;
+  border-left: 1px solid rgba(125, 105, 94, 0.18);
+}
+
+.ziwei-detail h2 {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.ziwei-detail p,
+.detail-block span {
+  color: #5f675f;
+  line-height: 1.85;
+}
+
+.detail-block {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(125, 105, 94, 0.16);
+}
+
+.detail-block strong {
+  color: #7d695e;
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .refined-hero {
+    min-height: 560px;
+  }
+
+  .refined-hero::after {
+    background: linear-gradient(180deg, rgba(238, 236, 228, 0.94), rgba(238, 236, 228, 0.44));
+  }
+
+  .refined-hero-copy {
+    padding: 40px 24px;
+  }
+
+  .refined-hero-copy h1 {
+    font-size: 42px;
+  }
+
+  .refined-routes,
+  .ziwei-workbench {
+    grid-template-columns: 1fr;
+  }
+
+  .complete-chart {
+    grid-template-rows: repeat(4, minmax(132px, auto));
+  }
+
+  .ziwei-detail {
+    position: static;
+    border-left: 0;
+    border-top: 1px solid rgba(125, 105, 94, 0.18);
+  }
+}
+
+@media (max-width: 520px) {
+  .refined-home {
+    width: min(100% - 20px, 620px);
+  }
+
+  .complete-chart {
+    grid-template-rows: repeat(4, minmax(112px, auto));
+  }
+
+  .complete-chart .ziwei-palace {
+    min-height: 112px;
+    padding: 9px;
+  }
+
+  .ziwei-center strong {
+    font-size: 22px;
   }
 }

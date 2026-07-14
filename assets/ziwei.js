@@ -36,7 +36,16 @@ const saveProfileButton = document.querySelector("#ziwei-save-profile");
 const profileStatus = document.querySelector("#ziwei-profile-status");
 const summary = document.querySelector("#ziwei-summary");
 const board = document.querySelector("#ziwei-board");
+const detail = document.querySelector("#ziwei-detail");
 const analysis = document.querySelector("#ziwei-analysis");
+
+const palaceGridPos = {
+  巳: [1, 1], 午: [1, 2], 未: [1, 3], 申: [1, 4],
+  辰: [2, 1], 酉: [2, 4],
+  卯: [3, 1], 戌: [3, 4],
+  寅: [4, 1], 丑: [4, 2], 子: [4, 3], 亥: [4, 4],
+};
+const clockwiseBranches = ["巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑", "寅", "卯", "辰"];
 
 setupProfiles();
 
@@ -158,11 +167,12 @@ function renderZiwei(chart, profile) {
   `;
 
   board.innerHTML = chart.palaces
-    .map((palace) => {
-      const major = palace.majorStars.map(starBadge).join("") || `<span class="star-badge empty-star">借对宫</span>`;
+    .map((palace, index) => {
+      const [row, column] = palaceGridPos[palace.branch] || [1, 1];
+      const major = palace.majorStars.map((star) => starBadge(star, index)).join("") || `<span class="star-badge empty-star">借对宫</span>`;
       const minor = palace.minorStars.map((star) => `<span>${escapeHtml(star.name)}</span>`).join("");
       return `
-        <article class="ziwei-palace${palace.name === "命宫" ? " is-ming" : ""}${palace.isBodyPalace ? " is-body" : ""}">
+        <article class="ziwei-palace${palace.name === "命宫" ? " is-ming" : ""}${palace.isBodyPalace ? " is-body" : ""}" data-palace-index="${index}" style="grid-row:${row}; grid-column:${column};">
           <div class="palace-head">
             <strong>${escapeHtml(palace.name)}</strong>
             <span>${escapeHtml(palace.branch || "")}</span>
@@ -174,6 +184,35 @@ function renderZiwei(chart, profile) {
       `;
     })
     .join("");
+
+  board.insertAdjacentHTML(
+    "beforeend",
+    `<div class="ziwei-center" aria-hidden="true">
+      <span>紫微斗数</span>
+      <strong>${escapeHtml(profile.name || "命主")}</strong>
+      <small>命宫 ${escapeHtml(ming.branch || "")} · 身宫 ${escapeHtml(body?.name || "未识别")}</small>
+    </div>`,
+  );
+
+  board.querySelectorAll("[data-palace-index]").forEach((node) => {
+    node.addEventListener("click", () => {
+      const palace = chart.palaces[Number(node.dataset.palaceIndex)];
+      board.querySelectorAll(".ziwei-palace").forEach((item) => item.classList.remove("is-selected"));
+      node.classList.add("is-selected");
+      renderDetail(chart, palace);
+    });
+  });
+
+  board.querySelectorAll("[data-star]").forEach((node) => {
+    node.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const palace = chart.palaces[Number(node.dataset.palaceIndex)];
+      const star = palace.majorStars.find((item) => item.name === node.dataset.star);
+      renderDetail(chart, palace, star);
+    });
+  });
+
+  renderDetail(chart, ming);
 
   analysis.innerHTML = buildAnalysisCards({ ming, body, spouse, career, wealth, chart, profile })
     .map((card) => `
@@ -238,7 +277,59 @@ function buildAnalysisCards({ ming, body, spouse, career, wealth, chart, profile
         : "本盘暂未从主星中识别到明显四化标注。可以继续结合八字和合盘看具体关系场景。",
       basis: "依据：各宫主星 mutagen 字段。四化解释为通俗参考。",
     },
+    {
+      title: "行动建议：把命盘落到生活里",
+      body: `${profile.name || "命主"}这张盘建议先从三个动作开始：第一，围绕命宫主星${mingStars.join("、") || "借对宫"}整理自己的长期定位；第二，把官禄宫提示转成一个可执行的职业方向，不要只停留在性格描述；第三，夫妻宫和财帛宫涉及关系与金钱，最好用现实规则承接，不靠感觉硬猜。命盘不是让人被动等待，而是提醒你把优势变成选择，把短板变成训练。`,
+      basis: "依据：命宫、官禄宫、夫妻宫、财帛宫综合生成。",
+    },
   ];
+}
+
+function renderDetail(chart, palace, star) {
+  if (!detail || !palace) return;
+  const angle = palaceAngles[palace.name] || [palace.name, "这个宫位需要结合主星与对宫一起看。"];
+  const majorNames = palace.majorStars.map((item) => item.name).join("、") || "无主星";
+  const starText = star
+    ? `${star.name}：${starTraits[star.name] || "这颗星需要结合所在宫位来判断。"}${star.mutagen ? ` 它带有${star.mutagen}，表示这个主题会被命盘特别放大。` : ""}`
+    : `本宫主星为${majorNames}。${describePalace(palace)}`;
+  const sf = sanFangSiZheng(chart, palace);
+  detail.innerHTML = `
+    <p class="eyebrow">${escapeHtml(angle[0])}</p>
+    <h2>${escapeHtml(palace.name)}${star ? ` · ${escapeHtml(star.name)}` : ""}</h2>
+    <p>${escapeHtml(starText)}</p>
+    <div class="detail-block">
+      <strong>三方四正</strong>
+      <span>${escapeHtml(sf.map((item) => `${item.name}${item.majorStars.length ? `（${item.majorStars.map((s) => s.name).join("、")}）` : ""}`).join(" / "))}</span>
+    </div>
+    <div class="detail-block">
+      <strong>具体建议</strong>
+      <span>${escapeHtml(buildPalaceAdvice(palace, star))}</span>
+    </div>
+  `;
+}
+
+function sanFangSiZheng(chart, palace) {
+  const index = clockwiseBranches.indexOf(palace.branch);
+  if (index < 0) return [palace];
+  const related = [palace.branch, clockwiseBranches[(index + 6) % 12], clockwiseBranches[(index + 4) % 12], clockwiseBranches[(index + 8) % 12]];
+  return related.map((branch) => chart.palaces.find((item) => item.branch === branch)).filter(Boolean);
+}
+
+function buildPalaceAdvice(palace, star) {
+  const name = palace.name;
+  const focus = palaceAngles[name]?.[0] || name;
+  if (star) {
+    return `把${star.name}的特质用在${focus}上：先保留它的优势，再用现实规则约束它的过度面。比如强势的星要练习协作，变化的星要建立节奏，桃花/社交型星要守住边界。`;
+  }
+  const map = {
+    命宫: "先写清楚你想成为什么样的人，再选择项目和关系。命宫强的人要避免全靠意志硬扛，命宫空的人更要选对环境。",
+    夫妻: "把择偶标准从感觉改成可观察行为：是否稳定回应、是否愿意修复冲突、是否尊重边界。",
+    官禄: "把职业方向拆成技能、平台、作品和人脉四项，不要只看短期收入。",
+    财帛: "建立预算、现金流和风险上限。财帛宫好也需要规则承接，财帛宫弱更要靠长期结构。",
+    疾厄: "把健康提示当作作息提醒：睡眠、饮食、运动和压力出口比玄学补救更实际。",
+    福德: "留意精神消耗。福德宫不是享乐宫而已，它决定你能不能长期恢复能量。",
+  };
+  return map[name] || `围绕${focus}建立一个可执行习惯：记录问题、明确边界、定期复盘，不把命盘提示停留在抽象判断。`;
 }
 
 function describePalace(palace) {
@@ -249,9 +340,9 @@ function describePalace(palace) {
   return stars.map((star) => starTraits[star] || `${star}提示这个领域需要结合具体场景判断。`).join("");
 }
 
-function starBadge(star) {
+function starBadge(star, palaceIndex) {
   const mutagen = star.mutagen ? `<em>${escapeHtml(star.mutagen)}</em>` : "";
-  return `<span class="star-badge">${escapeHtml(star.name)}${mutagen}</span>`;
+  return `<button type="button" class="star-badge" data-star="${escapeHtml(star.name)}" data-palace-index="${palaceIndex}">${escapeHtml(star.name)}${mutagen}</button>`;
 }
 
 function formatStar(star) {
