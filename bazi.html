@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>玄衡八字排盘</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <aside class="panel input-panel" aria-labelledby="app-title">
+          <div class="brand-row">
+            <div class="seal" aria-hidden="true">玄</div>
+            <div>
+              <p class="eyebrow">四柱八字 · 五行参考</p>
+              <h1 id="app-title">玄衡八字排盘</h1>
+              <div class="title-actions" aria-label="排盘类型">
+                <a class="mini-action" href="./index.html">首页</a>
+                <a class="mini-action active" href="#birth-form">八字排盘</a>
+                <a class="mini-action" href="./ziwei.html">紫微排盘</a>
+                <a class="mini-action" href="./compat.html">二人合宫</a>
+              </div>
+            </div>
+          </div>
+
+          <form id="birth-form" class="form-grid">
+            <div class="profile-tools">
+              <label>
+                生日档案
+                <select id="profile-select" name="profileId">
+                  <option value="">从档案选择</option>
+                </select>
+              </label>
+              <div class="profile-actions">
+                <button class="secondary-action compact-action" id="save-profile" type="button">💾 保存档案</button>
+                <button class="ghost-action compact-action" id="delete-profile" type="button">删除</button>
+              </div>
+              <p id="profile-status" class="mini-note">档案只保存在当前浏览器，方便下次排盘或合盘选择。</p>
+            </div>
+
+            <label>
+              姓名
+              <input id="name" name="name" type="text" placeholder="请输入姓名" autocomplete="name" required />
+            </label>
+
+            <label>
+              性别
+              <select id="gender" name="gender">
+                <option value="未指定">未指定</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </label>
+
+            <label>
+              出生日期
+              <input id="birth-date" name="birthDate" type="date" required />
+            </label>
+
+            <label>
+              出生时间
+              <input id="birth-time" name="birthTime" type="time" value="12:00" required />
+            </label>
+
+            <label>
+              出生地
+              <input id="location" name="location" type="text" placeholder="例如：杭州" />
+            </label>
+
+            <label>
+              历法
+              <select id="calendar" name="calendar">
+                <option value="公历">公历</option>
+                <option value="农历">农历</option>
+              </select>
+            </label>
+
+            <label class="check-row">
+              <input id="leap-month" name="leapMonth" type="checkbox" />
+              闰月
+            </label>
+
+            <button class="primary-action" type="submit">✨ 立即排盘</button>
+          </form>
+
+          <p class="note">
+            支持公历/农历输入、闰月换算与精确节气排盘，结果适合娱乐参考，不作为人生决策依据。
+          </p>
+        </aside>
+
+        <section class="result-area" aria-live="polite">
+          <div class="panel overview-panel">
+            <div>
+              <p class="eyebrow">命盘摘要 · 一眼看重点</p>
+              <h2 id="summary-title">填写信息后生成命盘</h2>
+            </div>
+            <div class="compass" aria-hidden="true">
+              <span>坎</span><span>艮</span><span>震</span><span>巽</span>
+              <strong>五行</strong>
+              <span>离</span><span>坤</span><span>兑</span><span>乾</span>
+            </div>
+          </div>
+
+          <div class="pillar-grid" id="pillar-grid">
+            <article class="pillar-card muted"><span>年柱</span><strong>--</strong><small>祖上与早年</small></article>
+            <article class="pillar-card muted"><span>月柱</span><strong>--</strong><small>事业与家庭</small></article>
+            <article class="pillar-card muted"><span>日柱</span><strong>--</strong><small>自我与伴侣</small></article>
+            <article class="pillar-card muted"><span>时柱</span><strong>--</strong><small>晚景与子女</small></article>
+          </div>
+
+          <section class="panel analysis-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">五行分布</p>
+                <h2>能量结构怎么用</h2>
+              </div>
+              <p id="dominant-text" class="tag">等待计算</p>
+            </div>
+            <div id="element-bars" class="element-bars"></div>
+          </section>
+
+          <section class="panel reading-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">综合解读</p>
+                <h2>通俗版命盘说明</h2>
+              </div>
+            </div>
+            <div id="reading" class="reading">
+              <p>输入出生日期与时间后，会在这里显示日主、五行倾向、性格优势、事业建议和感情观察。文字会尽量用生活语言解释，少用玄学黑话。</p>
+            </div>
+            <div id="insights" class="insight-grid"></div>
+          </section>
+
+          <section class="panel next-panel">
+            <div>
+              <p class="eyebrow">深层解析 🔎</p>
+              <h2>看深层八字四柱解析</h2>
+              <p>围绕年柱、月柱、日柱、时柱继续看伴侣、事业、家庭、子女和财富，其中日柱会重点展开。</p>
+            </div>
+            <a class="secondary-action" href="./deep.html">看深层四柱解析</a>
+          </section>
+
+        </section>
+      </section>
+    </main>
+
+    <script src="./assets/vendor-lunar.js"></script>
+    <script src="./assets/profiles.js"></script>
+    <script src="./assets/main.v2.js"></script>
+  </body>
+</html>

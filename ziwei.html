@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="紫微斗数十二宫排盘，支持生日档案选择，生成命宫、身宫、主星、四化与多维通俗解析。" />
+    <title>紫微斗数排盘 · 玄衡命理工作台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell topic-page">
+      <section class="panel topic-hero">
+        <div>
+          <p class="eyebrow">紫微斗数 · 十二宫</p>
+          <h1>紫微命盘工作台</h1>
+          <p>
+            从生日档案选择，或手动输入出生信息。系统会生成十二宫、命宫、身宫、主星与四化，再用事业、感情、财运、健康、人际等角度做通俗解读。
+          </p>
+          <a class="secondary-action" href="./index.html">返回首页</a>
+          <a class="secondary-action secondary-inline" href="./bazi.html">八字排盘</a>
+        </div>
+        <div class="compass" aria-hidden="true">
+          <span>命</span><span>兄</span><span>夫</span><span>子</span>
+          <strong>紫微</strong>
+          <span>财</span><span>疾</span><span>迁</span><span>官</span>
+        </div>
+      </section>
+
+      <section class="panel compat-form-panel">
+        <form id="ziwei-form" class="form-grid">
+          <div class="profile-tools">
+            <label>
+              生日档案
+              <select id="ziwei-profile-select" name="profileId">
+                <option value="">从档案选择</option>
+              </select>
+            </label>
+            <div class="profile-actions">
+              <button class="secondary-action compact-action" id="ziwei-save-profile" type="button">💾 保存档案</button>
+            </div>
+            <p id="ziwei-profile-status" class="mini-note">紫微排盘会优先使用公历生日与出生时间；出生地会随档案保留。</p>
+          </div>
+
+          <label>
+            姓名
+            <input name="name" type="text" placeholder="请输入姓名" required />
+          </label>
+          <label>
+            性别
+            <select name="gender">
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
+          </label>
+          <label>
+            出生日期
+            <input name="birthDate" type="date" required />
+          </label>
+          <label>
+            出生时间
+            <input name="birthTime" type="time" value="12:00" required />
+          </label>
+          <label>
+            出生地
+            <input name="location" type="text" placeholder="例如：杭州" />
+          </label>
+          <button class="primary-action" type="submit">✨ 生成紫微命盘</button>
+        </form>
+        <p class="note">紫微斗数排盘使用 iztro 开源库。页面解读为本站基于宫位、主星、四化与关系场景生成的通俗参考。</p>
+      </section>
+
+      <section id="ziwei-summary" class="compat-summary"></section>
+      <section id="ziwei-board" class="ziwei-board"></section>
+      <section id="ziwei-analysis" class="deep-grid"></section>
+    </main>
+
+    <script src="./assets/vendor-iztro.js"></script>
+    <script src="./assets/profiles.js"></script>
+    <script src="./assets/ziwei.js"></script>
+  </body>
+</html>
