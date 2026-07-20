@@ -22,27 +22,27 @@ const palaceProfiles = {
   兄弟: {
     role: "兄弟宫看同辈、同学、手足、合伙人，也看你如何在平级关系里分配资源。",
     life: "这个宫位强时，许多机会来自熟人圈层；弱时，则要把边界和利益规则提前讲清。",
-    advice: "判断兄弟宫不能只看感情好坏，还要看它是否能承接信息、人脉和共同承担的能力。",
+    advice: "判断兄弟宫要同时看情分、信息、人脉、利益分配和共同承担的能力。",
   },
   夫妻: {
     role: "夫妻宫看亲密关系的期待、承诺方式、磨合节奏，也看你会被怎样的人吸引。",
-    life: "它反映的不是简单的早婚晚婚，而是你在亲密关系中如何处理安全感、自由和责任。",
+    life: "它呈现早婚晚婚之外的亲密机制：安全感、自由度、责任分配和冲突修复方式。",
     advice: "夫妻宫的重点在于关系里的相处机制：谁主动、谁退让、冲突如何修复、长期如何共建。",
   },
   子女: {
     role: "子女宫看子女缘分，也看作品、传承、长期项目和你对未来成果的投注方式。",
     life: "它常常显示一个人对创造、养育、教育、表达和结果沉淀的态度。",
-    advice: "这个宫位不宜只用有没有子女来理解，更要看你如何把想法变成能延续的东西。",
+    advice: "这个宫位把子女缘、作品、长期产出一起看，重点是如何把想法变成可延续的结果。",
   },
   财帛: {
     role: "财帛宫看赚钱方式、花钱习惯、现金流安全感和面对风险时的本能反应。",
-    life: "它不等于财富总量，而是你更适合靠专业、资源、交易、管理还是创意来转化收入。",
+    life: "它关注财富总量背后的获取路径：专业、资源、交易、管理、创意与现金流结构。",
     advice: "财帛宫要和官禄宫、田宅宫一起看，才能判断收入来源、积累方式和资产稳定性。",
   },
   疾厄: {
     role: "疾厄宫看身体敏感点、压力出口、生活节律，也看情绪如何在身体上留下痕迹。",
-    life: "它不是医学诊断，而是提醒哪些生活模式容易让你透支，哪些节奏更适合长期维持。",
-    advice: "看疾厄宫时，重点不是恐惧疾病，而是建立睡眠、运动、饮食和心理恢复的长期秩序。",
+    life: "它作为生活节律提示，指出哪些模式容易透支，哪些节奏更适合长期维持。",
+    advice: "看疾厄宫时，重点放在睡眠、运动、饮食和心理恢复的长期秩序。",
   },
   迁移: {
     role: "迁移宫看外地、出行、公开场合、社交曝光，也看你离开熟悉环境后的适应力。",
@@ -56,7 +56,7 @@ const palaceProfiles = {
   },
   官禄: {
     role: "官禄宫看事业方向、工作风格、职位责任、专业声誉和社会角色。",
-    life: "它不是只看能不能升职，而是看你在哪种体系、节奏和任务结构里更容易成事。",
+    life: "它看升职之外的事业结构：你在哪种体系、节奏和任务结构里更容易成事。",
     advice: "官禄宫要与命宫、财帛宫互参：命宫给动力，官禄给舞台，财帛决定成果能否变现。",
   },
   田宅: {
@@ -67,7 +67,7 @@ const palaceProfiles = {
   福德: {
     role: "福德宫看精神能量、快乐来源、审美趣味、休息方式和内心消耗。",
     life: "它决定你是否容易快乐，也决定在无人要求你表现时，你真实想把时间交给什么。",
-    advice: "福德宫弱并不是没有福，而是更需要主动安排独处、审美、信念和情绪回收的空间。",
+    advice: "福德宫弱时，更需要主动安排独处、审美、信念和情绪回收的空间。",
   },
   父母: {
     role: "父母宫看长辈缘、教育背景、制度资源、外部庇护，也看你如何面对权威。",
@@ -376,8 +376,8 @@ function renderAnalysis({ ming, body, spouse, career, wealth, chart, profile }) 
   const cards = [
     buildLongCard("命宫总论", buildPalaceEssay(chart, ming, null, profile), `依据：命宫${ming.branch || ""}，主星${starNames(ming)}。`, true),
     buildLongCard("身宫与人生重心", body ? buildPalaceEssay(chart, body, null, profile) : "本盘未能读取身宫位置，因此只能以命宫、官禄宫和迁移宫作为行动重心参考。身宫通常显示一个人越成熟越容易投入的领域，如果资料缺失，建议先观察哪些人生主题会反复要求你做决定，再回到命盘核对。", `依据：身宫${body?.name || "未标注"}。`),
-    buildLongCard("感情与长期关系", spouse ? buildPalaceEssay(chart, spouse, null, profile) : "夫妻宫资料暂未读取完整，感情判断宜先参考命宫的自我模式、福德宫的情绪需要，以及迁移宫的外在互动方式。亲密关系不是单看桃花，而是看双方能否把期待、边界、责任和日常节奏谈清楚。", `依据：夫妻宫${spouse?.branch || "未标注"}。`),
-    buildLongCard("事业与财帛联动", `${career ? buildPalaceEssay(chart, career, null, profile) : ""}${wealth ? "\n\n" + buildPalaceEssay(chart, wealth, null, profile) : ""}`, `依据：官禄宫${starNames(career)}，财帛宫${starNames(wealth)}。`),
+    buildLongCard("感情与长期关系", spouse ? buildPalaceEssay(chart, spouse, null, profile) : "夫妻宫资料暂未读取完整，感情判断宜先参考命宫的自我模式、福德宫的情绪需要，以及迁移宫的外在互动方式。亲密关系关键在于双方能否把期待、边界、责任和日常节奏谈清楚。", `依据：夫妻宫${spouse?.branch || "未标注"}。`),
+    buildLongCard("事业与财帛联动", buildCareerWealthEssay(chart, career, wealth, profile), `依据：官禄宫${starNames(career)}，财帛宫${starNames(wealth)}。`),
     buildLongCard("四化触发点", buildMutagenEssay(chart), "依据：各主星 mutagen 字段，按化禄、化权、化科、化忌作通俗说明。"),
     buildLongCard("大限年龄段解读", buildAgeEssay(chart), "依据：十二宫 decadal.range 年龄段。"),
   ];
@@ -395,6 +395,34 @@ function renderAnalysis({ ming, body, spouse, career, wealth, chart, profile }) 
 
 function buildLongCard(title, body, basis, highlight = false) {
   return { title, body, basis, highlight };
+}
+
+function buildCareerWealthEssay(chart, career, wealth, profile = {}) {
+  const subject = profile.name || "命主";
+  const careerStars = career?.majorStars || [];
+  const wealthStars = wealth?.majorStars || [];
+  const careerText = career
+    ? `${career.name}看事业方向，主星${starNames(career)}。${careerStars.length ? careerStars.map((star) => `${star.name}让工作方式带有${normalizeTrait(starTraits[star.name] || `${star.name}的星性`)}。`).join("") : "官禄宫无主星，事业判断要借对宫和三方四正看平台、机会和外部评价。"}`
+    : "官禄宫资料暂未读取完整，事业方向先参考命宫主星和迁移宫。";
+  const wealthText = wealth
+    ? `${wealth.name}看收入方式和现金流，主星${starNames(wealth)}。${wealthStars.length ? wealthStars.map((star) => `${star.name}让赚钱路径带有${normalizeTrait(starTraits[star.name] || `${star.name}的星性`)}。`).join("") : "财帛宫无主星，钱财更容易由对宫、三合宫、行业环境和合作对象带动。"}`
+    : "财帛宫资料暂未读取完整，财富判断先参考官禄宫和田宅宫。";
+  const bridge = career && wealth
+    ? `把两宫合看，${subject}的事业负责提供舞台，财帛负责检验成果能否形成稳定回收。${buildCareerWealthBridge(chart, career, wealth)}`
+    : `${subject}的事业与财富联动需要补齐官禄宫、财帛宫资料后再细化。`;
+  return `${careerText}${wealthText}${bridge}`;
+}
+
+function buildCareerWealthBridge(chart, career, wealth) {
+  const careerRelated = sanFangSiZheng(chart, career).includes(wealth);
+  const sharedFamily = career.majorStars.find((a) => wealth.majorStars.some((b) => sameFamily(a.name, b.name)));
+  if (careerRelated) {
+    return `官禄宫与财帛宫在三方四正里互相牵动，工作选择会直接影响收入结构，适合把职位责任、作品成果、收费方式和资产安排放在同一张表里规划。`;
+  }
+  if (sharedFamily) {
+    return `${sharedFamily.name}所在星系同时牵动事业与金钱，说明职业标签和变现方式容易互相呼应，适合围绕同一项能力做长期积累。`;
+  }
+  return `两宫星性各有侧重，事业端先建立清晰角色，收入端再选择适合的计价方式；越早区分“能做什么”和“如何收钱”，越容易减少消耗。`;
 }
 
 function renderDetail(chart, palace, star) {
@@ -419,7 +447,7 @@ function renderDetail(chart, palace, star) {
 function buildPalaceEssay(chart, palace, star, profile = {}) {
   const info = palaceProfiles[palace.name] || {
     role: `${palace.name}代表人生中的一个具体主题。`,
-    life: "它需要结合本宫、对宫、三合宫和四化一起判断，不能只凭单颗星下结论。",
+    life: "它需要结合本宫、对宫、三合宫和四化一起判断，把单颗星放回整张盘里看。",
     advice: "解读时宜同时看天赋、惯性、外部环境和阶段运势。",
   };
   const major = palace.majorStars;
@@ -430,23 +458,23 @@ function buildPalaceEssay(chart, palace, star, profile = {}) {
     ? `${star ? "本宫其他主星补充：" : "本宫主星需要逐颗看："}${otherMajorStars.map((item) => explainStarInPalace(item, palace)).join(" ")}${!star ? buildStarCombinationText(major, palace) : ""}`
     : star
       ? ""
-    : `本宫没有读取到主星，不能简单理解为“没有内容”。${palace.name}会更依赖对宫和三方四正来成象，事情往往由外部对象、环境变化、合作结构或阶段运势触发；所以判断时要先看相关宫位有什么星，再回到本宫主题落地。`;
+    : `本宫没有读取到主星，解读重点转向对宫和三方四正。${palace.name}会更依赖外部对象、环境变化、合作结构或阶段运势来成象；先看相关宫位有什么星，再回到本宫主题落地。`;
   const sf = sanFangSiZheng(chart, palace);
   const age = palace.decadal ? `${palace.decadal[0]}-${palace.decadal[1]}岁` : "未标注年龄段";
   const minorText = minor.length
     ? `辅星也要落到本宫来看：${minor.map((item) => `${item.name}${item.brightness ? `（${item.brightness}）` : ""}会让${palaceAngles[palace.name]?.[0] || palace.name}多一层${minorStarEffect(item.name)}。`).join("")}`
-    : "本宫辅星显示较少，解释时就不宜靠零散小象硬加戏，而要把主星、对宫和三方四正作为主要依据。";
+    : "本宫辅星显示较少，解释时以主星、对宫和三方四正作为主要依据。";
   const relationText = buildRelationEssay(chart, palace, star);
   const stageText = buildStageLine(palace);
   const subject = profile.name || "命主";
 
-  return `${info.role}${info.life}${info.advice}${picked}${majorText}${minorText}从${subject}的整张盘来看，${palace.name}对应的大限年龄段为${age}。${stageText}${relationText}因此这个宫位的判断不能停在“主题会变明显”这种笼统说法，而要看：本宫星曜给出处理方式，相关宫位星曜给出触发对象和资源方向，四化再决定哪一点被放大。把三者合起来，才知道是靠人脉打开、靠专业兑现、靠关系磨合，还是需要先处理身体、家庭、资产或心理能量。`;
+  return `${info.role}${info.life}${info.advice}${picked}${majorText}${minorText}${subject}的${palace.name}对应大限年龄段为${age}。${stageText}${relationText}${buildPalaceClosing(palace)}`;
 }
 
 function explainStarInPalace(star, palace, mode = "normal") {
   const focus = palaceAngles[palace.name]?.[0] || palace.name;
   const base = normalizeTrait(starTraits[star.name] || `${star.name}需要结合所在宫位来判断。`);
-  const brightness = star.brightness ? `亮度为${star.brightness}，发挥时要看旺弱：状态好时更敢承担和推进，状态弱时容易先表现为犹豫、消耗、借力或需要外部条件托住。` : "";
+  const brightness = brightnessText(star, palace);
   const mutagen = star.mutagen ? `带${star.mutagen}，会把${focus}推成事件焦点：${mutagenMeaning(star.mutagen)}。` : "";
   const prefix = mode === "selected" ? `${star.name}在${palace.name}的重点是` : `${star.name}在${palace.name}表示`;
   return `${prefix}：处理${focus}时会带有${base}的风格。${brightness}${mutagen}`;
@@ -458,7 +486,7 @@ function buildStarCombinationText(stars, palace) {
   const same = Object.entries(starFamilies).find(([, family]) => names.filter((name) => family.includes(name)).length >= 2);
   const focus = palaceAngles[palace.name]?.[0] || palace.name;
   if (same) {
-    return ` 组合上，${names.join("、")}里有${same[0]}的结构，说明${focus}不是单点发挥，而是会在同一件事里同时出现${familyMeaning(same[0])}。`;
+    return ` 组合上，${names.join("、")}里有${same[0]}的结构，说明${focus}会多线发挥，同一件事里同时出现${familyMeaning(same[0])}。`;
   }
   return ` 组合上，${names.join("、")}同宫，表示${focus}会同时存在不同动机：一颗星负责启动，另一颗星负责修正或拉扯，现实中常表现为想法与执行、情绪与规则、机会与成本并行。`;
 }
@@ -473,7 +501,7 @@ function buildRelationEssay(chart, palace, selectedStar) {
       const stars = item.majorStars.length ? item.majorStars : item.minorStars.slice(0, 2);
       const starText = stars.length
         ? stars.map((star) => explainInteraction(sourceStars, palace, star, item, role)).join("")
-        : `${role}的${item.name}无主星，作用方式不是直接给答案，而是把${palace.name}的主题交给外部条件、当事人选择和阶段环境来触发。`;
+        : `${role}的${item.name}无主星，作用方式偏向环境触发：外部条件、当事人选择和阶段变化会把${palace.name}的主题带出来。`;
       return `${role}看${item.name}：${starText}`;
     })
     .join("");
@@ -486,7 +514,7 @@ function explainInteraction(sourceStars, sourcePalace, targetStar, targetPalace,
   const shared = sourceStars.find((item) => sameFamily(item.name, targetStar.name));
   const familyText = shared
     ? `${targetStar.name}与${shared.name}同属可互相牵动的星系，反应会比较直接：${targetFocus}上的变化容易立刻改写${focus}的判断。`
-    : `${targetStar.name}与${sourceNames}不是同一组星性，反应更像外部条件对本宫的校正：它不会替本宫做决定，但会改变事情推进的成本和节奏。`;
+    : `${targetStar.name}把${targetFocus}的议题带进${focus}，常表现为资源、关系、时间安排或现实条件上的牵动。`;
   const trait = normalizeTrait(starTraits[targetStar.name] || `${targetStar.name}需要按宫位主题解释`);
   const mutagen = targetStar.mutagen ? `又因${targetStar.name}带${targetStar.mutagen}，这条线会被放大为${mutagenMeaning(targetStar.mutagen)}。` : "";
   return `${targetPalace.name}的${targetStar.name}代表${trait}，通过${role}作用到${sourcePalace.name}，会让${sourceNames}处理${focus}时必须顾及${targetFocus}。${familyText}${mutagen}`;
@@ -539,14 +567,33 @@ function buildMutagenEssay(chart) {
     return "本盘没有读取到明显四化标注，因此四化部分只能作为观察框架使用。一般来说，化禄像资源入口，容易带来喜欢、获得、机会或人情；化权像控制按钮，会让人更想主导，也更容易承担压力；化科像包装与名声，让事情更讲究体面、秩序、评价；化忌则像反复被按到的痛点，代表亏欠、执念、卡点或需要修正的行为模式。没有明显四化时，更要回到命宫、官禄、财帛、夫妻等核心宫位，看主星组合是否已经形成强烈倾向。";
   }
   const baseYear = new Date().getFullYear();
-  return mutagens
-    .map(({ palace, star }) => {
+  return groupMutagensByPalace(mutagens)
+    .map(({ palace, items }) => {
       const theme = palaceAngles[palace.name]?.[0] || palace.name;
-      const trait = normalizeTrait(starTraits[star.name] || `${star.name}按本宫主题发挥`);
       const windows = buildMutagenYearWindows(chart, palace, baseYear);
-      return `${star.name}${star.mutagen}入${palace.name}：这条四化不是“入某宫”四个字就结束，而是把${palace.name}代表的${theme}变成命盘里的高敏感区。${star.name}本身代表${trait}，所以它带${star.mutagen}落入${palace.name}时，具体作用是${describeMutagenInPalace(star.mutagen, palace, star)}${windows}`;
+      const title = items.map(({ star }) => `${star.name}${star.mutagen}`).join("、");
+      const effects = items
+        .map(({ star }) => {
+          const trait = normalizeTrait(starTraits[star.name] || `${star.name}按本宫主题发挥`);
+          return `${star.name}${star.mutagen}入${palace.name}的作用是：${star.name}代表${trait}，带${star.mutagen}时${describeMutagenInPalace(star.mutagen, palace, star)}`;
+        })
+        .join("");
+      return `${title}入${palace.name}：${palace.name}代表${theme}，四化会把该主题变成命盘里的高敏感区。${effects}${windows}`;
     })
     .join("\n\n");
+}
+
+function groupMutagensByPalace(mutagens) {
+  const groups = [];
+  mutagens.forEach((item) => {
+    const existing = groups.find((group) => group.palace === item.palace);
+    if (existing) {
+      existing.items.push(item);
+    } else {
+      groups.push({ palace: item.palace, items: [item] });
+    }
+  });
+  return groups;
 }
 
 function describeMutagenInPalace(mutagen, palace, star) {
@@ -568,8 +615,8 @@ function describeMutagenInPalace(mutagen, palace, star) {
   const effect = {
     禄: `容易在${focus}上出现资源、好感、获得感或别人愿意给的便利；但${star.name}带来的欲望也会让人想多拿一点，所以要看收益背后的成本`,
     权: `会让${focus}变成必须主导、必须负责、必须争取话语权的领域；好处是推进力强，坏处是容易因控制感、权责分配或急于证明自己而紧张`,
-    科: `会让${focus}需要靠名声、专业说明、证照、作品包装或规则化表达来打开；它不一定立刻给钱，但会提高被认可、被解释清楚、被推荐的概率`,
-    忌: `会让${focus}成为反复牵挂或容易卡住的地方；不是必然坏，而是提醒这里有亏欠、执念、拖延、误解或必须补课的长期题目`,
+    科: `会让${focus}需要靠名声、专业说明、证照、作品包装或规则化表达来打开；它会提高被认可、被解释清楚、被推荐的概率`,
+    忌: `会让${focus}成为反复牵挂或容易卡住的地方；这里常见亏欠、执念、拖延、误解或必须补课的长期题目`,
   }[mutagen] || `${focus}会被特别标记`;
   return `${palaceGuide}。${effect}。`;
 }
@@ -616,7 +663,7 @@ function buildAgeEssay(chart) {
       const relatedText = related
         .map((item) => `${relationRole(chart, palace, item)}${item.name}${item.majorStars.length ? `见${item.majorStars.map((star) => star.name).join("、")}` : "无主星"}`)
         .join("；");
-      return `${palace.decadal[0]}-${palace.decadal[1]}岁走到${palace.name}，主星为${stars}。${buildStageLine(palace)}${buildStageStarLine(palace)}这一阶段还要看${relatedText || "三方四正资料不足"}：这些宫位不是陪衬，而是会决定事件从哪里来、由谁触发、靠什么解决。`
+      return `${palace.decadal[0]}-${palace.decadal[1]}岁走到${palace.name}，主星为${stars}。${buildStageLine(palace)}${buildStageStarLine(palace)}这一阶段同步看${relatedText || "三方四正资料不足"}：这些宫位负责说明事件从哪里来、由谁触发、靠什么解决。`
     })
     .join("\n\n");
 }
@@ -625,10 +672,10 @@ function buildStageLine(palace) {
   const guide = {
     命宫: "这一限最像重新定义自己的十年，外界会逼你回答“我到底要以什么身份生活”。若主星强，适合确立个人品牌、职业定位和长期方向；若主星受制，则常见自我怀疑、换跑道、重新建立生活秩序。",
     兄弟: "这一限会把同辈关系、合伙分工、朋友资源推到台前。好处是信息、人脉、介绍和协作机会变多；难处是利益边界容易模糊，尤其遇到强势星或煞耗星时，要先把钱、权责、期限说清楚。",
-    夫妻: "这一限不是只看结婚，而是亲密关系、契约关系和一对一合作都会变重要。主星柔和时，适合建立稳定陪伴；主星刚烈或变化大时，容易经历关系重谈、承诺压力、分合选择或合作对象更换。",
+    夫妻: "这一限会把亲密关系、契约关系和一对一合作推到主线。主星柔和时，适合建立稳定陪伴；主星刚烈或变化大时，容易经历关系重谈、承诺压力、分合选择或合作对象更换。",
     子女: "这一限会考验创造、养育、作品和长期成果。若星曜偏稳，适合把项目做成体系；若星曜偏动，可能出现育儿安排、作品方向、团队传承或副业产品的调整，重点是把想法变成可延续的结果。",
     财帛: "这一限直接牵动现金流、收入结构、消费欲望和风险承受。武曲、天府、太阴等星适合积累与资产化；贪狼、破军、七杀等星则要防收益波动过大，赚钱前先设止损和预算规则。",
-    疾厄: "这一限会让身体节律、压力管理和隐性消耗变得无法忽视。吉星多时适合建立稳定保养系统；煞耗星重时，容易因工作、关系或情绪长期紧绷而透支，不能把身体信号当成小事拖延。",
+    疾厄: "这一限会让身体节律、压力管理和隐性消耗进入主线。吉星多时适合建立稳定保养系统；煞耗星重时，容易因工作、关系或情绪长期紧绷而透支，身体信号需要尽早处理。",
     迁移: "这一限会把外部环境、城市变化、出差迁居、公开曝光和陌生人评价带进主线。太阳、天机、天马类动象强时，越走出去越有机会；若忌煞同见，则外部机会伴随成本，出行、合同和口碑要谨慎。",
     仆役: "这一限看团队、客户、社群、朋友和下属。星曜得力时，人脉就是放大器；星曜复杂时，人情压力、团队内耗、客户筛选会成为主题，越要用制度和明确边界来保住合作效率。",
     官禄: "这一限会集中考验事业路径、职位责任、专业声誉和工作模式。稳定星适合深耕平台与资历，开创星适合创业、转型或承担挑战任务；若口舌星明显，要特别处理汇报、合同和公众评价。",
@@ -641,7 +688,7 @@ function buildStageLine(palace) {
 
 function buildStageStarLine(palace) {
   if (!palace.majorStars.length) {
-    return "本宫无主星，所以本阶段不宜凭一个空宫下判断，要借对宫和三方宫来看事件来源；现实中常见别人、环境或制度先动，你再被迫回应。";
+    return "本宫无主星，本阶段以对宫和三方宫作为事件来源；现实中常见别人、环境或制度先动，你再顺势回应。";
   }
   return palace.majorStars
     .map((star) => {
@@ -656,6 +703,37 @@ function normalizeTrait(text) {
   return String(text || "")
     .replace(/^主/, "")
     .replace(/。$/, "");
+}
+
+function brightnessText(star, palace) {
+  if (!star.brightness) return "";
+  const value = String(star.brightness);
+  const label = value === "不" ? "不得地" : value;
+  const place = palace?.name ? `在${palace.name}` : "在本宫";
+  if (/庙|旺/.test(value)) return `${star.name}亮度为${label}，${place}力量清楚，容易主动显现。`;
+  if (/得|利/.test(value)) return `${star.name}亮度为${label}，${place}发挥稳定，适合靠节奏和方法累积成果。`;
+  if (/平/.test(value)) return `${star.name}亮度为${label}，${place}需要环境配合，适合用清晰规则承接。`;
+  if (/陷|不/.test(value)) return `${star.name}亮度为${label}，${place}先显出压力点，适合先补条件再推进。`;
+  return `${star.name}亮度为${label}，${place}要结合同宫星曜和三方四正一起看。`;
+}
+
+function buildPalaceClosing(palace) {
+  const focus = palaceAngles[palace.name]?.[0] || palace.name;
+  const closings = {
+    命宫: `命宫落地时，先看自我定位如何带动选择，再看迁移、官禄、财帛提供哪些舞台与资源。`,
+    兄弟: `兄弟宫落地时，重点看同辈关系如何带来消息、分工、压力和利益安排。`,
+    夫妻: `夫妻宫落地时，重点看承诺方式、沟通节奏、边界安排和双方共同承担的能力。`,
+    子女: `子女宫落地时，重点看作品、子女、长期项目如何从想法进入稳定产出。`,
+    财帛: `财帛宫落地时，重点看收入路径、现金流节奏、消费边界和风险上限。`,
+    疾厄: `疾厄宫落地时，重点看作息、压力出口、身体信号和长期恢复系统。`,
+    迁移: `迁移宫落地时，重点看外部环境、公开评价、出行迁动和陌生机会。`,
+    仆役: `仆役宫落地时，重点看团队、客户、朋友和社群能否形成稳定助力。`,
+    官禄: `官禄宫落地时，重点看职位责任、专业标签、工作节奏和成果兑现。`,
+    田宅: `田宅宫落地时，重点看家庭空间、资产根基、居住选择和安全感建设。`,
+    福德: `福德宫落地时，重点看休息方式、兴趣审美、情绪回收和精神续航。`,
+    父母: `父母宫落地时，重点看长辈、上司、制度、证照文书和外部庇护如何参与人生选择。`,
+  };
+  return closings[palace.name] || `${focus}落地时，重点看本宫星曜、相关宫位和四化触发如何合在一起。`;
 }
 
 function sanFangSiZheng(chart, palace) {
