@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="奇门遁甲九宫排盘，支持生日档案选择、问事用神、九宫点击点亮、值符值使与格局通俗分析。" />
+    <title>奇门遁甲九宫排盘 · 玄衡命理工作台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell topic-page">
+      <section class="panel topic-hero qimen-hero">
+        <div>
+          <p class="eyebrow">奇门遁甲 · 时家转盘</p>
+          <h1>奇门九宫工作台</h1>
+          <p>
+            输入时间起局，查看阴阳遁、局数、值符值使、天盘九星、八门、八神、三奇六仪、空亡驿马与宫位格局。点击九宫可点亮相关宫位并查看细节。
+          </p>
+          <a class="secondary-action" href="./index.html">返回首页</a>
+          <a class="secondary-action secondary-inline" href="./bazi.html">八字排盘</a>
+          <a class="secondary-action secondary-inline" href="./ziwei.html">紫微排盘</a>
+        </div>
+        <div class="qimen-mini-board" aria-hidden="true">
+          <span>巽</span><span>离</span><span>坤</span>
+          <span>震</span><strong>奇门</strong><span>兑</span>
+          <span>艮</span><span>坎</span><span>乾</span>
+        </div>
+      </section>
+
+      <section class="panel compat-form-panel">
+        <form id="qimen-form" class="form-grid">
+          <div class="profile-tools">
+            <label>
+              生日档案
+              <select id="qimen-profile-select" name="profileId">
+                <option value="">从档案选择</option>
+              </select>
+            </label>
+            <div class="profile-actions">
+              <button class="secondary-action compact-action" id="qimen-save-profile" type="button">保存档案</button>
+            </div>
+            <p id="qimen-profile-status" class="mini-note">档案与八字、紫微、合盘共用，保存在当前浏览器。</p>
+          </div>
+
+          <label>
+            姓名
+            <input name="name" type="text" placeholder="请输入姓名或事项名" required />
+          </label>
+          <label>
+            性别
+            <select name="gender">
+              <option value="未指定">未指定</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
+          </label>
+          <label>
+            日期
+            <input name="birthDate" type="date" required />
+          </label>
+          <label>
+            时间
+            <input name="birthTime" type="time" value="12:00" required />
+          </label>
+          <label>
+            地点
+            <input name="location" type="text" placeholder="例如：杭州" />
+          </label>
+          <label>
+            历法
+            <select name="calendar">
+              <option value="公历">公历</option>
+              <option value="农历">农历</option>
+            </select>
+          </label>
+          <label class="check-row">
+            <input name="leapMonth" type="checkbox" />
+            闰月
+          </label>
+          <label>
+            盘式用途
+            <select name="plateUse">
+              <option value="event">问事局</option>
+              <option value="birth">生日局</option>
+            </select>
+          </label>
+          <label>
+            问题类型
+            <select name="questionType">
+              <option value="事业">事业</option>
+              <option value="求财">求财</option>
+              <option value="婚姻感情">婚姻感情</option>
+              <option value="疾病健康">疾病健康</option>
+              <option value="出行">出行</option>
+              <option value="官司诉讼">官司诉讼</option>
+              <option value="寻人寻物">寻人寻物</option>
+              <option value="天气">天气</option>
+              <option value="家宅风水">家宅风水</option>
+            </select>
+          </label>
+          <label>
+            天禽寄宫
+            <select name="tianqinMode">
+              <option value="follow-tiannei">随天内</option>
+              <option value="jikun">寄坤二宫</option>
+              <option value="follow-zhifu">随值符</option>
+            </select>
+          </label>
+
+          <button class="primary-action" type="submit">生成奇门九宫</button>
+        </form>
+        <p class="note">排盘参考 qmenpowers 的时家奇门、转盘、置闰法、天禽寄宫与格局标记结构。内容仅供文化娱乐与个人观察。</p>
+      </section>
+
+      <section id="qimen-summary" class="compat-summary"></section>
+      <section class="panel qimen-workbench">
+        <div id="qimen-board" class="qimen-board"></div>
+        <aside id="qimen-detail" class="qimen-detail">
+          <p class="eyebrow">点击查看</p>
+          <h2>选择一个宫位</h2>
+          <p>生成九宫后，点击宫位会点亮对宫、值符值使宫、用神宫与相关连线，并展开星、门、神、天干克应和格局说明。</p>
+        </aside>
+      </section>
+      <section id="qimen-analysis" class="deep-grid"></section>
+    </main>
+
+    <script src="./assets/vendor-lunar.js"></script>
+    <script src="./assets/profiles.v2.js"></script>
+    <script src="./assets/qimen.v1.js"></script>
+  </body>
+</html>
