@@ -1296,6 +1296,20 @@ select:focus {
   outline-offset: -2px;
 }
 
+.complete-chart .ziwei-palace.is-selected {
+  position: relative;
+  z-index: 3;
+  background: #efe8d7;
+  outline-color: rgba(139, 100, 16, 0.58);
+}
+
+.complete-chart .ziwei-palace.is-related {
+  position: relative;
+  z-index: 2;
+  background: #f6f4ed;
+  box-shadow: inset 0 0 0 2px rgba(113, 136, 149, 0.28);
+}
+
 .complete-chart .ziwei-palace.is-ming {
   background: #f2eee5;
 }
@@ -1344,10 +1358,53 @@ select:focus {
   background: #7d695e;
 }
 
+.complete-chart .star-badge.is-selected {
+  color: #fffaf2;
+  border-color: rgba(139, 100, 16, 0.56);
+  background: #8b6410;
+}
+
+.complete-chart .star-badge.is-linked {
+  border-color: rgba(113, 136, 149, 0.52);
+  background: #eef1ef;
+}
+
+.ziwei-links {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ziwei-links line {
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.ziwei-links .palace {
+  stroke: rgba(113, 136, 149, 0.45);
+  stroke-width: 2;
+  stroke-dasharray: 8 7;
+}
+
+.ziwei-links .star {
+  stroke: rgba(180, 121, 72, 0.48);
+  stroke-width: 1.6;
+}
+
+.ziwei-links .star.strong {
+  stroke: rgba(139, 100, 16, 0.68);
+  stroke-width: 2.4;
+}
+
 .ziwei-detail {
   position: sticky;
   top: 84px;
   min-height: 420px;
+  max-height: calc(100vh - 108px);
+  overflow: auto;
   padding: 22px;
   border-left: 1px solid rgba(125, 105, 94, 0.18);
 }
@@ -1361,6 +1418,10 @@ select:focus {
 .detail-block span {
   color: #5f675f;
   line-height: 1.85;
+}
+
+.ziwei-detail p {
+  margin: 12px 0 0;
 }
 
 .detail-block {
