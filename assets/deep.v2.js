@@ -14,6 +14,49 @@ const elementAction = {
   水: "信息、流动、学习、跨界机会",
 };
 
+const tenGodDeep = {
+  日主: "自我意识强，亲密关系里更在意真实感和安全感。",
+  比肩: "主自我驱动、同辈并行，能靠个人能力开局，也容易硬撑。",
+  劫财: "主竞争、资源争夺和同伴牵动，机会来得快，边界要更清楚。",
+  食神: "主稳定输出、口碑和生活感，适合长期生产内容或服务。",
+  伤官: "主表达锋利、破框和创新，适合主动发声，但要处理好规则。",
+  正财: "主稳定收入、现实经营和责任感，适合把收益路径做清楚。",
+  偏财: "主机会、渠道和流动资源，适合市场与副业，但要控风险。",
+  正官: "主职位、规则和社会评价，适合稳健晋升与制度化平台。",
+  七杀: "主压力、竞争和执行强度，适合高压赛道，但要有方法。",
+  正印: "主学习、保护、资质和贵人，适合证书、体系和长期积累。",
+  偏印: "主洞察、小众专长和研究力，适合深挖细分领域。",
+};
+
+const stageDeep = {
+  长生: "有起势和培养感，适合开新局。",
+  沐浴: "变化、吸引力和情绪波动都更明显。",
+  冠带: "形象、包装、定位和成长空间被强调。",
+  临官: "执行、职位和责任感增强。",
+  帝旺: "能量处在高点，适合主动争取，也要防过度用力。",
+  衰: "适合减法、收束和整理资源。",
+  病: "压力容易拖慢节奏，适合修流程和作息。",
+  死: "旧模式难以硬冲，适合断舍离和换策略。",
+  墓: "资源有收纳感，适合沉淀资产、经验和作品。",
+  绝: "断点和转向明显，重大决定要留缓冲。",
+  胎: "新方向在酝酿，适合试水。",
+  养: "需要蓄力和耐心，适合长期培养。",
+};
+
+const shenShaDeep = {
+  天乙贵人: "容易遇到关键人物或制度托举",
+  文昌贵人: "利学习、表达、证照、内容输出",
+  禄神: "资源和收益入口较明显",
+  羊刃: "冲劲强，宜把锋芒放进规则",
+  太极贵人: "利研究、咨询、玄学和深度思考",
+  红鸾: "关系吸引力和感情触发点较强",
+  天喜: "喜庆、人缘和合作氛围较明显",
+  驿马: "动中生机，利迁移、出差、跨界",
+  桃花: "人缘和曝光较强，也要守边界",
+  华盖: "审美、独处和专业深耕感较强",
+  将星: "主导力和担当感较强",
+};
+
 const saved = readSavedChart();
 const summary = document.querySelector("#deep-summary");
 const content = document.querySelector("#deep-content");
@@ -23,7 +66,7 @@ if (!saved) {
   content.innerHTML = `
     <article class="deep-card">
       <h2>需要先排盘</h2>
-      <p>深层解析必须基于具体四柱生成，不能脱离用户命盘写泛泛内容。</p>
+      <p>本页会读取上一页生成的年柱、月柱、日柱、时柱，再展开伴侣、事业、家庭、长期成果和财富判断。</p>
       <p class="basis">依据：本页读取首页保存的年柱、月柱、日柱、时柱和五行分布。</p>
     </article>
   `;
@@ -44,35 +87,39 @@ function renderDeep(chart, profile) {
   const weakest = sortedElements[sortedElements.length - 1][0];
   const wealthTone = getWealthTone(wealthScore, wealthElement);
   const familyTone = getFamilyTone(year, month, dayElement);
+  const dayDetail = describePillarDetail(day);
+  const monthDetail = describePillarDetail(month);
+  const yearDetail = describePillarDetail(year);
+  const timeDetail = describePillarDetail(time);
 
-  summary.textContent = `${profile.name} · ${chart.eightCharText}。本页重点看日柱${day.stem}${day.branch}，再用年、月、时柱补充判断。`;
+  summary.textContent = `${profile.name} · ${chart.eightCharText}。本页展开伴侣、事业、家庭、长期成果和财富判断。`;
 
   const cards = [
     {
-      title: "伴侣：重点看日柱",
-      body: `${profile.name}的婚恋关键不在“随便结婚就改命”，而在能不能遇到${partner.partnerType}。日柱${day.stem}${day.branch}里，日主是${dayElement}，日支是${day.branchElement}，两者呈现${partner.short}；所以感情里最容易发生的模式是${partner.partnerText}。如果伴侣能补上${weakest}的短板，这段关系才更像加分项。更细一点看，日支不是简单等于“对象长什么样”，它更像你进入亲密关系后的默认反应：你会怎样索取安全感、怎样处理距离、怎样在冲突里保护自己。好的伴侣不是完全没有冲突，而是冲突之后能让你回到更稳定、更清醒的状态。`,
-      basis: `依据：日柱${day.stem}${day.branch}；日主${dayElement}；日支${day.branch}属${day.branchElement}；五行偏弱为${weakest}。`,
+      title: "伴侣：日柱定性",
+      body: `${profile.name}的日柱为${day.stem}${day.branch}，${dayDetail}日支${day.branch}属${day.branchElement}，与日元${dayElement}呈${partner.short}，感情里容易出现的主线是${partner.partnerText}。适合靠近${partner.partnerType}，但关系能不能稳定，还要看对方是否能补${weakest}弱处，并且愿意在冲突后一起修复。${describeShenSha(day)}如果日柱空亡为${day.xunKong || "无"}，亲密关系里更要避免长期猜测，把承诺、边界和时间安排说清楚。`,
+      basis: `依据：日柱${day.stem}${day.branch}；日元${dayElement}；日支${day.branch}属${day.branchElement}；副星${day.secondaryStars}；星运${day.starStage}；自坐${day.selfSitting}；五行偏弱为${weakest}。`,
       highlight: true,
     },
     {
-      title: "事业：看月柱",
-      body: `${profile.name}的事业不是靠猛冲型，更适合把${strongest}的强项做成稳定标签。月柱${month.stem}${month.branch}对日主形成${career.short}，说明工作里${career.careerText}。如果选方向，优先找能用到${elementAction[strongest]}的岗位或内容主题。月柱也代表你最常面对的外部规则：上司、行业、市场、家庭期待都会从这里投射出来。你不是不能换赛道，而是每次换之前都要问清楚：这条路能不能让优势复利，能不能给弱项提供制度支持，能不能在三到五年后沉淀成真正的资历。`,
-      basis: `依据：月柱${month.stem}${month.branch}；月干${month.stem}属${month.stemElement}；当前最旺五行为${strongest}。`,
+      title: "事业：月柱取势",
+      body: `${profile.name}的月柱为${month.stem}${month.branch}，${monthDetail}月干${month.stem}对日元形成${career.short}，工作里更容易表现为${career.careerText}。盘里${strongest}最旺，事业切入点宜落在${elementAction[strongest]}；${weakest}偏弱，执行中最怕短板拖住节奏。换方向或接项目时，优先看三件事：能不能把${strongest}做成稳定标签，能不能给${weakest}配置制度支持，能不能在三到五年内沉淀资历。${describeShenSha(month)}`,
+      basis: `依据：月柱${month.stem}${month.branch}；主星${month.tenGod}；副星${month.secondaryStars}；星运${month.starStage}；当前最旺五行为${strongest}。`,
     },
     {
-      title: "家庭：看年柱和月柱",
-      body: `${profile.name}不是完全脱离家庭底色的人，早年环境对选择方式有影响。年柱${year.stem}${year.branch}和月柱${month.stem}${month.branch}显示：${familyTone}。这类盘不适合一直被家里节奏牵着走，越早建立自己的判断和边界，后面越顺。家庭给人的影响不只有资源，也包括恐惧、价值感、处理金钱和亲密关系的方式。你可以尊重来处，但不必复制来处；当你开始把“我应该怎样”换成“我选择怎样”，年柱和月柱的压力就会慢慢转成经验。`,
-      basis: `依据：年柱${year.stem}${year.branch}含${year.stemElement}/${year.branchElement}；月柱${month.stem}${month.branch}含${month.stemElement}/${month.branchElement}。`,
+      title: "家庭：年/月联动",
+      body: `${profile.name}的年柱为${year.stem}${year.branch}，${yearDetail}月柱为${month.stem}${month.branch}，显示现实规则更早介入选择。年、月两柱合看为：${familyTone}。这类结构会把家庭期待、资源分配、责任感和自我证明欲推到台前；越早建立自己的判断、预算和边界，越能把早年压力转成经验，而不是一直被旧节奏牵着走。${describeShenSha(year)}`,
+      basis: `依据：年柱${year.stem}${year.branch}含${year.stemElement}/${year.branchElement}；月柱${month.stem}${month.branch}含${month.stemElement}/${month.branchElement}；年柱神煞${formatList(year.shenSha)}。`,
     },
     {
-      title: "子女与晚景：看时柱",
-      body: `${profile.name}对子女或长期成果的态度偏${later.laterType}。时柱${time.stem}${time.branch}对日主呈${later.short}，所以后半段人生更容易在${later.laterText}上花心力。与其早早焦虑结果，不如把长期节奏和资源分配先稳住。时柱也可以看成“未来要交付的作品”：可能是子女、事业成果、资产结构，也可能是你晚年真正想拥有的生活方式。现在做的每一次选择，都会变成时柱里那份长期回响。`,
-      basis: `依据：时柱${time.stem}${time.branch}；时干${time.stem}属${time.stemElement}；时支${time.branch}属${time.branchElement}。`,
+      title: "长期成果：时柱落点",
+      body: `${profile.name}的时柱为${time.stem}${time.branch}，${timeDetail}时干${time.stem}对日元呈${later.short}，长期成果更偏${later.laterType}，后半段人生容易在${later.laterText}上花心力。若时柱神煞被触发，子女、作品、资产结构或晚年生活方式会更需要提前布局。现在最该稳的是长期节奏、资源分配和可持续交付，不宜只凭短期情绪决定未来安排。${describeShenSha(time)}`,
+      basis: `依据：时柱${time.stem}${time.branch}；主星${time.tenGod}；副星${time.secondaryStars}；星运${time.starStage}；自坐${time.selfSitting}。`,
     },
     {
-      title: "财富：看日主所克",
-      body: `${profile.name}的财富线索落在${wealthElement}，盘里${wealthElement}的权重约为${wealthScore.toFixed(1)}，属于${wealthTone.level}。${wealthTone.text}钱不是不能来，但更适合从${elementAction[wealthElement]}里找入口，而不是只靠情绪和运气。财富在这里不是单纯“有没有钱”，还包括你能不能识别机会、能不能承受风险、能不能把一次收入变成可持续结构。最值得做的是把赚钱路径写清楚：靠专业、靠渠道、靠管理、靠内容，还是靠资源整合；路径越清楚，运势感越容易落地。`,
-      basis: `依据：日主${dayElement}；${dayElement}克${wealthElement}，故以${wealthElement}作财富参考。`,
+      title: "财富：财星结构",
+      body: `${profile.name}的财星落在${wealthElement}，盘里${wealthElement}权重约为${wealthScore.toFixed(1)}，属于${wealthTone.level}。${wealthTone.text}财富入口更适合从${elementAction[wealthElement]}里找，路径要写清楚：靠专业、靠渠道、靠管理、靠内容，还是靠资源整合。若${wealthElement}同时也是盘里弱处，先补能力和结构，再谈放大；若${wealthElement}较旺，就要重视合同、现金流、预算和风险边界，避免机会多但留不住。`,
+      basis: `依据：日元${dayElement}；${dayElement}克${wealthElement}；${wealthElement}权重${wealthScore.toFixed(1)}；当前最旺${strongest}、偏弱${weakest}。`,
     },
   ];
 
@@ -87,6 +134,26 @@ function renderDeep(chart, profile) {
       `,
     )
     .join("");
+}
+
+function describePillarDetail(pillar) {
+  const tenGod = tenGodDeep[pillar.tenGod] || `${pillar.tenGod || "主星"}需要结合该柱领域判断。`;
+  const stage = stageDeep[pillar.starStage] || "星运需结合全盘节奏判断。";
+  const selfSitting = stageDeep[pillar.selfSitting] || "自坐状态需结合日支和全盘判断。";
+  const selfText =
+    pillar.selfSitting === pillar.starStage
+      ? `星运与自坐同为${pillar.selfSitting}，这股倾向会更集中。`
+      : `自坐处显示：${selfSitting}`;
+  return `主星${pillar.tenGod}，副星${pillar.secondaryStars || "无"}，星运${pillar.starStage}，自坐${pillar.selfSitting}，空亡${pillar.xunKong || "无"}，纳音${pillar.naYin || "未标注"}。${tenGod}${stage}${selfText}`;
+}
+
+function describeShenSha(pillar) {
+  if (!pillar.shenSha?.length) return `${pillar.label}常用神煞没有明显集中，判断以主星、副星和五行为主。`;
+  return `${pillar.label}见${pillar.shenSha.join("、")}，${pillar.shenSha.map((name) => shenShaDeep[name] || `${name}会给该领域增加触发点`).join("；")}。`;
+}
+
+function formatList(items) {
+  return items?.length ? items.join("、") : "无明显集中";
 }
 
 function relationProfile(source, target) {
