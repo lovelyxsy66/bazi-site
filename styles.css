@@ -648,11 +648,12 @@ select:focus {
 }
 
 .pillar-card {
-  min-height: 336px;
-  padding: 18px;
+  min-height: 0;
+  padding: 16px;
   display: grid;
   align-content: start;
-  gap: 14px;
+  gap: 12px;
+  background: rgba(255, 250, 242, 0.98);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -675,12 +676,20 @@ select:focus {
 
 .pillar-head {
   display: grid;
-  gap: 10px;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(125, 105, 94, 0.14);
+}
+
+.pillar-head span {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .pillar-card strong {
-  font-size: 42px;
-  line-height: 1;
+  color: var(--ink);
+  font-size: 36px;
+  line-height: 1.05;
 }
 
 .pillar-card em {
@@ -691,27 +700,29 @@ select:focus {
 
 .pillar-meta {
   display: grid;
-  gap: 6px;
+  gap: 4px;
   font-size: 12px;
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
 .pillar-row {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 7px;
   align-items: start;
 }
 
 .pillar-row b {
-  color: var(--red);
-  font-size: 12px;
-  font-weight: 800;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .pillar-row span {
   color: var(--ink);
+  font-size: 12px;
+  font-weight: 650;
   overflow-wrap: anywhere;
 }
 

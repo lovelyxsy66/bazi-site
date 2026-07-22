@@ -21,7 +21,7 @@
       "src": "/(.*)",
       "dest": "/$1",
       "headers": {
-        "Cache-Control": "public, max-age=300"
+        "Cache-Control": "no-cache"
       }
     }
   ]
