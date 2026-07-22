@@ -648,10 +648,11 @@ select:focus {
 }
 
 .pillar-card {
-  min-height: 154px;
+  min-height: 336px;
   padding: 18px;
   display: grid;
-  align-content: space-between;
+  align-content: start;
+  gap: 14px;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -672,6 +673,11 @@ select:focus {
   font-size: 13px;
 }
 
+.pillar-head {
+  display: grid;
+  gap: 10px;
+}
+
 .pillar-card strong {
   font-size: 42px;
   line-height: 1;
@@ -681,6 +687,32 @@ select:focus {
   color: var(--red);
   font-style: normal;
   font-weight: 800;
+}
+
+.pillar-meta {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pillar-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+}
+
+.pillar-row b {
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.pillar-row span {
+  color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
 .muted strong {
